@@ -3,11 +3,13 @@ import { hasClass, addClass, removeClass } from 'element-ui/src/utils/dom';
 import ElCheckbox from 'element-ui/packages/checkbox';
 import ElTooltip from 'element-ui/packages/tooltip';
 import debounce from 'throttle-debounce/debounce';
+import TableBodyRow from './table-body-row';
 
 export default {
   components: {
     ElCheckbox,
-    ElTooltip
+    ElTooltip,
+    TableBodyRow
   },
 
   props: {
@@ -26,7 +28,13 @@ export default {
   },
 
   render(h) {
-    const columnsHidden = this.columns.map((column, index) => this.isColumnHidden(index));
+    let tmpFixedColumns = !this.fixed
+      ? this.columns
+      : this.fixed === 'right'
+        ? this.rightFixedColumns
+        : this.fixedColumns;
+    // let tmpFixedColumns = this.columns;
+    const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
     return (
       <table
         class="el-table__body"
@@ -35,7 +43,7 @@ export default {
         border="0">
         <colgroup>
           {
-            this._l(this.columns, column =>
+            this._l(tmpFixedColumns, column =>
               <col
                 name={ column.id }
                 width={ column.realWidth || column.width }
@@ -45,7 +53,9 @@ export default {
         <tbody>
           {
             this._l(this.data, (row, $index) =>
-              [<tr
+              [
+                <table-body-row></table-body-row>,
+                <tr
                 style={ this.rowStyle ? this.getRowStyle(row, $index) : null }
                 key={ this.table.rowKey ? this.getKeyOfRow(row, $index) : $index }
                 on-dblclick={ ($event) => this.handleDoubleClick($event, row) }
@@ -55,9 +65,9 @@ export default {
                 on-mouseleave={ _ => this.handleMouseLeave() }
                 class={ [this.getRowClass(row, $index)] }>
                 {
-                  this._l(this.columns, (column, cellIndex) =>
+                  this._l(tmpFixedColumns, (column, cellIndex) =>
                     <td
-                      class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : '' ] }
+                      class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
                       on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
                       on-mouseleave={ this.handleCellMouseLeave }>
                       {
@@ -72,7 +82,7 @@ export default {
               </tr>,
                 this.store.states.expandRows.indexOf(row) > -1
                 ? (<tr>
-                    <td colspan={ this.columns.length } class="el-table__expanded-cell">
+                    <td colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
                       { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
                     </td>
                   </tr>)
@@ -146,6 +156,12 @@ export default {
 
     columns() {
       return this.store.states.columns;
+    },
+    fixedColumns() {
+      return this.store.states.fixedColumns;
+    },
+    rightFixedColumns() {
+      return this.store.states.rightFixedColumns;
     }
   },
 
@@ -167,7 +183,7 @@ export default {
       }
       return index;
     },
-
+    // TODO 没用了
     isColumnHidden(index) {
       if (this.fixed === true || this.fixed === 'left') {
         return index >= this.leftFixedCount;

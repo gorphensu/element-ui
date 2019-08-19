@@ -67,8 +67,12 @@ export default {
 
   render(h) {
     const originColumns = this.store.states.originColumns;
+    // let tmpFixedColumns = !this.fixed
+    //   ? this.columns
+    //   : this.fixed === 'right'
+    //     ? this.rightFixedColumns
+    //     : this.fixedColumns;
     const columnRows = convertToRows(originColumns, this.columns);
-
     return (
       <table
         class="el-table__header"
@@ -183,6 +187,12 @@ export default {
 
     columns() {
       return this.store.states.columns;
+    },
+    fixedColumns() {
+      return this.store.states.fixedColumns;
+    },
+    rightFixedColumns() {
+      return this.store.states.rightFixedColumns;
     }
   },
 
@@ -327,6 +337,7 @@ export default {
             const finalLeft = parseInt(resizeProxy.style.left, 10);
             const columnWidth = finalLeft - startColumnLeft;
             column.width = column.realWidth = columnWidth;
+            // 拖动列时候响应的事件回调
             table.$emit('header-dragend', column.width, startLeft - startColumnLeft, column, event);
 
             this.store.scheduleLayout();
