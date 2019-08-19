@@ -1,5 +1,5 @@
 {
-  "name": "element-ui",
+  "name": "xt-element-ui",
   "version": "1.4.13",
   "description": "A Component Library for Vue.js.",
   "main": "lib/element-ui.common.js",
@@ -23,6 +23,7 @@
     "dist:all": "node build/bin/build-all.js && npm run build:theme",
     "i18n": "node build/bin/i18n.js",
     "lint": "eslint src/**/* test/**/* packages/**/*.{js,vue} build/**/* --quiet",
+    "lint:ignore": "npm -v",
     "pub": "npm run bootstrap && sh build/git-release.sh && sh build/release.sh && sh build/deploy-faas.sh",
     "pub:all": "npm run dist:all && lerna publish --skip-git && git commit -am 'publish independent packages' && git push eleme dev",
     "test": "npm run lint && cross-env CI_ENV=/dev/ karma start test/unit/karma.conf.js --single-run",
@@ -52,6 +53,7 @@
     "async-validator": "~1.8.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.0",
     "deepmerge": "^1.2.0",
+    "natives": "^1.1.6",
     "throttle-debounce": "^1.0.1"
   },
   "peerDependencies": {
