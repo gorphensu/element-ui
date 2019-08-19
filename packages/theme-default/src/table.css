@@ -140,6 +140,10 @@
       cursor: pointer;
     }
 
+    & tr:last-of-type td {
+      border-bottom: none;
+    }
+
     @modifier border {
       & th, td {
         border-right: 1px solid var(--table-border-color);

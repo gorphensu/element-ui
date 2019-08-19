@@ -54,8 +54,24 @@ export default {
           {
             this._l(this.data, (row, $index) =>
               [
-                <table-body-row></table-body-row>,
-                <tr
+                <table-body-row row={row} index={$index} parent={this}>
+                {
+                  this._l(tmpFixedColumns, (column, cellIndex) =>
+                    <td
+                      class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
+                      on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
+                      on-mouseleave={ this.handleCellMouseLeave }>
+                      {
+                        column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
+                      }
+                    </td>
+                  )
+                }
+                {
+                  !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
+                }
+                </table-body-row>,
+                /* <tr
                 style={ this.rowStyle ? this.getRowStyle(row, $index) : null }
                 key={ this.table.rowKey ? this.getKeyOfRow(row, $index) : $index }
                 on-dblclick={ ($event) => this.handleDoubleClick($event, row) }
@@ -79,7 +95,7 @@ export default {
                 {
                   !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
                 }
-              </tr>,
+                </tr>, */
                 this.store.states.expandRows.indexOf(row) > -1
                 ? (<tr>
                     <td colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">

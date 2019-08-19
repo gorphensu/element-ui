@@ -796,7 +796,7 @@
     <el-table-column
       prop="address"
       label="地址"
-      width="300">
+      width="150">
     </el-table-column>
     <el-table-column
       prop="zip"
