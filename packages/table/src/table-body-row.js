@@ -1,3 +1,5 @@
+import debounce from 'throttle-debounce/debounce';
+
 export default {
   props: {
     index: {
@@ -8,6 +10,16 @@ export default {
       default: () => {}
     },
     parent: Object
+  },
+  watch: {
+    // row: {
+    //   deep: true,
+    //   handler: function(newVal, oldVal) {
+    //     if (newVal !== oldVal) {
+    //       this.debounceTriggerEvent();
+    //     }
+    //   }
+    // }
   },
   render(h) {
     let $index = this.index;
@@ -29,10 +41,11 @@ export default {
     );
   },
   created() {
+    this.debounceTriggerEvent = debounce(20, this.triggerEvent);
     this.bindEvent();
   },
   mounted() {
-    this.triggerEvent();
+    this.debounceTriggerEvent();
   },
   beforeDestroy() {
     this.unbind();
@@ -57,7 +70,7 @@ export default {
       });
       this.parent.table.$on('header-dragend', () => {
         this.$el.style['height'] = '';
-        this.triggerEvent();
+        this.debounceTriggerEvent();
       });
     },
     unbind() {
