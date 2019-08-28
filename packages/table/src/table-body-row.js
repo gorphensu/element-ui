@@ -12,14 +12,14 @@ export default {
     parent: Object
   },
   watch: {
-    // row: {
-    //   deep: true,
-    //   handler: function(newVal, oldVal) {
-    //     if (newVal !== oldVal) {
-    //       this.debounceTriggerEvent();
-    //     }
-    //   }
-    // }
+    row: {
+      deep: true,
+      handler: function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.debounceTriggerEvent();
+        }
+      }
+    }
   },
   render(h) {
     let $index = this.index;
