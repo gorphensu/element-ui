@@ -12,6 +12,7 @@ export default {
     parent: Object
   },
   watch: {
+    // 当数据改变后，再计算一下layout
     row: {
       deep: true,
       handler: function(newVal, oldVal) {
