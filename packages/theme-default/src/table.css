@@ -141,7 +141,7 @@
     }
 
     & tr:last-of-type td {
-      border-bottom: none;
+      /* border-bottom: none; */
     }
 
     @modifier border {
