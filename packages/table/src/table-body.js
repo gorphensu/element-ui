@@ -56,15 +56,32 @@ export default {
               [
                 <table-body-row row={row} index={$index} parent={this}>
                 {
-                  this._l(tmpFixedColumns, (column, cellIndex) =>
-                    <td
+                  this._l(tmpFixedColumns, (column, cellIndex) => {
+                    const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
+                    if (!rowspan || !colspan) {
+                      return null;
+                    }
+                    return (
+                      <td
+                        class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
+                        rowspan={ rowspan }
+                        colspan={ colspan }
+                        on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
+                        on-mouseleave={ this.handleCellMouseLeave }>
+                        {
+                          column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
+                        }
+                      </td>
+                    );
+                  },
+                    {/* <td
                       class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
                       on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
                       on-mouseleave={ this.handleCellMouseLeave }>
                       {
                         column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
                       }
-                    </td>
+                    </td> */}
                   )
                 }
                 {
@@ -208,6 +225,28 @@ export default {
       } else {
         return (index < this.leftFixedCount) || (index >= this.columnsCount - this.rightFixedCount);
       }
+    },
+
+    getSpan(row, column, rowIndex, columnIndex) {
+      let rowspan = 1;
+      let colspan = 1;
+      const fn = this.table.spanMethod;
+      if (typeof fn === 'function') {
+        const result = fn({
+          row,
+          column,
+          rowIndex,
+          columnIndex
+        });
+        if (Array.isArray(result)) {
+          rowspan = result[0];
+          colspan = result[1];
+        } else if (typeof result === 'object') {
+          rowspan = result.rowspan;
+          colspan = result.colspan;
+        }
+      }
+      return { rowspan, colspan };
     },
 
     getRowStyle(row, index) {

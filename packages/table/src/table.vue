@@ -212,7 +212,9 @@
 
       defaultSort: Object,
 
-      tooltipEffect: String
+      tooltipEffect: String,
+
+      spanMethod: Function
     },
 
     components: {
