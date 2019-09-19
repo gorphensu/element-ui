@@ -389,10 +389,9 @@
           };
         } else {
           style = {
-            height: this.layout.viewportHeight ? this.layout.viewportHeight + 'px' : ''
+            height: this.layout.viewportHeight ? this.layout.viewportHeight - (this.data.length ? 0 : this.layout.gutterWidth) + 'px' : ''
           };
         }
-
         return style;
       }
     },

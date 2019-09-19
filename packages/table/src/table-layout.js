@@ -92,6 +92,7 @@ class TableLayout {
       this.fixedBodyHeight = this.scrollX ? bodyHeight - this.gutterWidth : bodyHeight;
     }
     this.viewportHeight = this.scrollX ? height - (noData ? 0 : this.gutterWidth) : height;
+    // this.viewportHeight = this.scrollX ? height - (noData ? this.gutterWidth : this.gutterWidth) : height;
   }
 
   update() {
