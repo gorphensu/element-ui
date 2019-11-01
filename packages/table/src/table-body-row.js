@@ -66,6 +66,17 @@ export default {
           let currentHeight = this.$el.offsetHeight;
           if ($el.offsetHeight > currentHeight) {
             this.$el.style['height'] = $el.offsetHeight + 'px';
+            // 修复如果滚动条不在最初状态，修复高度后，滚动条需要保存位置
+            if (this.parent.table.$refs.fixedBodyWrapper) {
+              if (this.parent.table.$refs.fixedBodyWrapper.scrollTop !== this.parent.table.bodyWrapper.scrollTop) {
+                this.parent.table.$refs.fixedBodyWrapper.scrollTop = this.parent.table.bodyWrapper.scrollTop;
+              }
+            }
+            if (this.parent.table.$refs.rightFixedBodyWrapper) {
+              if (this.parent.table.$refs.rightFixedBodyWrapper.scrollTop !== this.parent.table.bodyWrapper.scrollTop) {
+                this.parent.table.$refs.rightFixedBodyWrapper.scrollTop = this.parent.table.bodyWrapper.scrollTop;
+              }
+            }
           }
         });
       });
