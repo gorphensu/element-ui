@@ -389,7 +389,9 @@
           };
         } else {
           style = {
-            height: this.layout.viewportHeight ? this.layout.viewportHeight - (this.data.length ? 0 : this.layout.gutterWidth) + 'px' : ''
+            // height: this.layout.viewportHeight ? this.layout.viewportHeight - (this.data.length ? 0 : this.layout.gutterWidth) + 'px' : ''
+            // 如果配置列统计，且有滚动条情况，高度需要添加滚动条高度
+            height: this.layout.viewportHeight ? this.layout.viewportHeight - (this.data.length ? 0 : this.layout.gutterWidth) + (this.showSummary && this.layout.gutterWidth && this.layout.scrollX ? this.layout.gutterWidth : 0) + 'px' : ''
           };
         }
         return style;
