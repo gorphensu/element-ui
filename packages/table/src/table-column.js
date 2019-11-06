@@ -182,6 +182,16 @@ export default {
   created() {
     this.customRender = this.$options.render;
     this.$options.render = h => h('div', this.$slots.default);
+    let columnHeader = null;
+    if (this.$slots.header || this.$scopedSlots.header) {
+      if (this.$scopedSlots.header) {
+        columnHeader = (h, scope) => {
+          return this.$scopedSlots.header(scope);
+        };
+      } else {
+        columnHeader = h => h('div', this.$slots.header);
+      }
+    }
     this.columnId = (this.$parent.tableId || (this.$parent.columnId + '_')) + 'column_' + columnIdSeed++;
 
     let parent = this.$parent;
@@ -217,7 +227,7 @@ export default {
       property: this.prop || this.property,
       type,
       renderCell: null,
-      renderHeader: this.renderHeader,
+      renderHeader: this.renderHeader || columnHeader,
       minWidth,
       width,
       isColumnGroup,

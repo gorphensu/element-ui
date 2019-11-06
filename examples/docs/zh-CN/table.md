@@ -2,6 +2,24 @@
   export default {
     data() {
       return {
+        tableData8: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }],
+        search8: '',
         tableData: [{
           date: '2016-05-03',
           name: '王小虎',
@@ -262,6 +280,12 @@
     },
 
     methods: {
+      handleEdit8(index, row) {
+        console.log(index, row);
+      },
+      handleDelete8(index, row) {
+        console.log(index, row);
+      },
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         if (rowIndex % 2 === 0) {
           if (columnIndex === 0) {
@@ -1668,6 +1692,81 @@
 </script>
 ```
 :::
+
+### 自定义表头
+
+表头支持自定义。
+
+:::demo 通过设置 [Scoped slot](https://cn.vuejs.org/v2/guide/components-slots.html#%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%8F%92%E6%A7%BD) 来自定义表头。
+```html
+<template>
+  <el-table
+    :data="tableData8.filter(data => !search8 || data.name.toLowerCase().includes(search8.toLowerCase()))"
+    style="width: 100%">
+    <el-table-column
+      label="Date"
+      prop="date">
+    </el-table-column>
+    <el-table-column
+      label="Name"
+      prop="name">
+    </el-table-column>
+    <el-table-column
+      align="right">
+      <template slot="header">
+        <el-input
+          v-model="search8"
+          size="mini"
+          placeholder="输入关键字搜索"/>
+      </template>
+      <template slot="default" slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        tableData8: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }],
+        search8: ''
+      }
+    },
+    methods: {
+      handleEdit8(index, row) {
+        console.log(index, row);
+      },
+      handleDelete8(index, row) {
+        console.log(index, row);
+      }
+    },
+  }
+</script>
+```
 
 ### 表尾合计行
 
