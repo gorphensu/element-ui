@@ -42,11 +42,14 @@ export default {
     );
   },
   created() {
-    this.debounceTriggerEvent = debounce(20, this.triggerEvent);
+    // this.debounceTriggerEvent = debounce(20, this.triggerEvent);
+    this.debounceTriggerEvent = this.triggerEvent;
     this.bindEvent();
   },
   mounted() {
-    this.debounceTriggerEvent();
+    setTimeout(() => {
+      this.debounceTriggerEvent();
+    });
   },
   beforeDestroy() {
     this.unbind();
