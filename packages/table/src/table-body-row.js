@@ -47,7 +47,7 @@ export default {
     this.bindEvent();
   },
   mounted() {
-    console.info('table-body-row', 'mounted')
+    console.info('table-body-row', 'mounted');
     setTimeout(() => {
       this.debounceTriggerEvent();
     });
