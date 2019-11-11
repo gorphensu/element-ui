@@ -58,6 +58,7 @@ export default {
           {
             this._l(this.columns, (column, cellIndex) =>
               <td
+                key={ cellIndex }
                 colspan={ column.colSpan }
                 rowspan={ column.rowSpan }
                 class={ [column.id, column.headerAlign, column.className || '', this.isCellHidden(cellIndex, this.columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] }>

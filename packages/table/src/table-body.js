@@ -47,6 +47,7 @@ export default {
               <col
                 name={ column.id }
                 width={ column.realWidth || column.width }
+                key={ column.id }
               />)
           }
         </colgroup>
@@ -54,7 +55,7 @@ export default {
           {
             this._l(this.data, (row, $index) =>
               [
-                <table-body-row row={row} index={$index} parent={this}>
+                <table-body-row row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index) }>
                 {
                   this._l(tmpFixedColumns, (column, cellIndex) => {
                     const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
