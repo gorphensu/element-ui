@@ -44,7 +44,7 @@ export default {
             this._l(this.columns, column =>
               <col
                 name={ column.id }
-                width={ column.realWidth || column.width }
+                width={ column.width || column.realWidth }
               />)
           }
           {
