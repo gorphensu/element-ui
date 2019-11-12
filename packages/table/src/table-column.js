@@ -392,7 +392,7 @@ export default {
     },
     labelClassName(newVal) {
       if (this.columnConfig) {
-        this.columnConfig.className = newVal;
+        this.columnConfig.labelClassName = newVal;
       }
     }
   },

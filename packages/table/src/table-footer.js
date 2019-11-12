@@ -62,6 +62,7 @@ export default {
                 colspan={ column.colSpan }
                 rowspan={ column.rowSpan }
                 class={ this.getFooterCellClass(cellIndex, this.columns, column) }
+                class2={ [column.id, column.headerAlign, column.className || '', this.isCellHidden(cellIndex, this.columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] }>
                 <div class={ ['cell', column.labelClassName] }>
                 {
                   this.summaryMethod ? this.summaryMethod({ columns: this.columns, data: this.store.states.data })[cellIndex] : sums[cellIndex]
