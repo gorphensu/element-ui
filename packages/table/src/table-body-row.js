@@ -57,17 +57,19 @@ export default {
   methods: {
     triggerEvent() {
       this.$nextTick(() => {
-        this.parent.table.$emit(`table-row-resize-change-${this.index}`, this.$el);
+        // 理论上是要非固定行才去发出这个事件，去通知固定行的高度改变
+        !this.parent.fixed && this.parent.table.$emit(`table-row-resize-change-${this.index}`, this.$el);
       });
     },
     bindEvent() {
+      // 接收的是固定行 this.$el是固定行 $el是非固定行
       this.parent.table.$on(`table-row-resize-change-${this.index}`, $el => {
         this.$nextTick(() => {
-          if (this.$el === $el) {
+          if (this.$el === $el || !this.parent.fixed) { // 如果不是固定列接收，拒接
             return;
           }
           let currentHeight = this.$el.offsetHeight;
-          if ($el.offsetHeight > currentHeight) {
+          if ($el.offsetHeight !== currentHeight) {
             this.$el.style['height'] = $el.offsetHeight + 'px';
             // 修复如果滚动条不在最初状态，修复高度后，滚动条需要保存位置
             if (this.parent.table.$refs.fixedBodyWrapper) {

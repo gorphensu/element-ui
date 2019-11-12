@@ -296,12 +296,21 @@
             this.layout.updateHeight();
           }
         });
+        this.debouncedSyncRowHeight();
+      },
+
+      syncRowHeight() {
+        this.data.forEach((item, index) => {
+          const itemEl$el = this.bodyWrapper.querySelector(`tr:nth-child(${index + 1})`);
+          this.$emit(`table-row-resize-change-${index}`, itemEl);
+        });
       }
     },
 
     created() {
       this.tableId = 'el-table_' + tableIdSeed + '_';
       this.debouncedLayout = debounce(50, () => this.doLayout());
+      this.debouncedSyncRowHeight = debounce(50, () => this.syncRowHeight());
     },
 
     computed: {
