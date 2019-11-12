@@ -384,6 +384,16 @@ export default {
       if (this.columnConfig) {
         this.columnConfig.sortable = newVal;
       }
+    },
+    className(newVal) {
+      if (this.columnConfig) {
+        this.columnConfig.className = newVal;
+      }
+    },
+    labelClassName(newVal) {
+      if (this.columnConfig) {
+        this.columnConfig.className = newVal;
+      }
     }
   },
 

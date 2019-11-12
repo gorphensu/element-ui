@@ -61,7 +61,7 @@ export default {
                 key={ cellIndex }
                 colspan={ column.colSpan }
                 rowspan={ column.rowSpan }
-                class={ [column.id, column.headerAlign, column.className || '', this.isCellHidden(cellIndex, this.columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName] }>
+                class={ this.getFooterCellClass(cellIndex, this.columns, column) }
                 <div class={ ['cell', column.labelClassName] }>
                 {
                   this.summaryMethod ? this.summaryMethod({ columns: this.columns, data: this.store.states.data })[cellIndex] : sums[cellIndex]
@@ -138,6 +138,16 @@ export default {
       } else {
         return (index < this.leftFixedCount) || (index >= this.columnsCount - this.rightFixedCount);
       }
+    },
+    getFooterCellClass(columnIndex, row, column) {
+      const classes = [column.id, column.headerAlign, column.className, column.labelClassName];
+      if (this.isCellHidden(columnIndex, row)) {
+        classes.push('is-hidden');
+      }
+      if (!column.children) {
+        classes.push('is-leaf');
+      }
+      return classes.join(' ');
     }
   }
 };

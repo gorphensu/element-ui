@@ -301,7 +301,7 @@
 
       syncRowHeight() {
         this.data.forEach((item, index) => {
-          const itemEl$el = this.bodyWrapper.querySelector(`tr:nth-child(${index + 1})`);
+          const itemEl = this.bodyWrapper.querySelector(`tr:nth-child(${index + 1})`);
           this.$emit(`table-row-resize-change-${index}`, itemEl);
         });
       }

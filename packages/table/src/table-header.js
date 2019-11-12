@@ -107,7 +107,8 @@ export default {
                     on-mouseout={ this.handleMouseOut }
                     on-mousedown={ ($event) => this.handleMouseDown($event, column) }
                     on-click={ ($event) => this.handleHeaderClick($event, column) }
-                    class={ [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && this.isCellHidden(cellIndex, columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName, column.sortable ? 'is-sortable' : ''] }
+                    class={ this.getHeaderCellClass(rowIndex, cellIndex, columns, column) }
+                    class2={ [column.id, column.order, column.headerAlign, column.className || '', rowIndex === 0 && this.isCellHidden(cellIndex, columns) ? 'is-hidden' : '', !column.children ? 'is-leaf' : '', column.labelClassName, column.sortable ? 'is-sortable' : ''] }
                     key={ column.id }>
                     <div class={ ['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '', column.labelClassName] }>
                     {
@@ -246,6 +247,36 @@ export default {
       } else {
         return (index < this.leftFixedCount) || (index >= this.columnsCount - this.rightFixedCount);
       }
+    },
+
+    getHeaderCellClass(rowIndex, columnIndex, row, column) {
+      const classes = [column.id, column.order, column.headerAlign, column.className, column.labelClassName];
+
+      if (rowIndex === 0 && this.isCellHidden(columnIndex, row)) {
+        classes.push('is-hidden');
+      }
+
+      if (!column.children) {
+        classes.push('is-leaf');
+      }
+
+      if (column.sortable) {
+        classes.push('is-sortable');
+      }
+
+      const headerCellClassName = this.$parent.headerCellClassName;
+      if (typeof headerCellClassName === 'string') {
+        classes.push(headerCellClassName);
+      } else if (typeof headerCellClassName === 'function') {
+        classes.push(headerCellClassName.call(null, {
+          rowIndex,
+          columnIndex,
+          row,
+          column
+        }));
+      }
+
+      return classes.join(' ');
     },
 
     toggleAllSelection() {
