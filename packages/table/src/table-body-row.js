@@ -63,7 +63,7 @@ export default {
     },
     bindEvent() {
       // 接收的是固定行 this.$el是固定行 $el是非固定行
-      this.parent.table.$on(`table-row-resize-change-${this.index}`, $el => {
+      this.tableRowResizeCallback = ($el) => {
         this.$nextTick(() => {
           if (this.$el === $el || !this.parent.fixed) { // 如果不是固定列接收，拒接
             return;
@@ -84,14 +84,15 @@ export default {
             }
           }
         });
-      });
+      };
+      this.parent.table.$on(`table-row-resize-change-${this.index}`, this.tableRowResizeCallback);
       this.parent.table.$on('header-dragend', () => {
         this.$el.style['height'] = '';
         this.debounceTriggerEvent();
       });
     },
     unbind() {
-      this.parent.table.$off(`table-row-resize-change-${this.index}`);
+      this.parent.table.$off(`table-row-resize-change-${this.index}`, this.tableRowResizeCallback);
     }
   }
 };
