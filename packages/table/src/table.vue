@@ -39,7 +39,11 @@
         <span class="el-table__empty-text"><slot name="empty">{{ emptyText || t('el.table.emptyText') }}</slot></span>
       </div>
     </div>
-    <div class="el-table__footer-wrapper" ref="footerWrapper" v-if="showSummary" v-show="data && data.length > 0">
+    <div class="el-table__footer-wrapper"
+      ref="footerWrapper"
+      v-if="showSummary"
+      v-mousewheel="handleHeaderFooterMousewheel"
+      v-show="data && data.length > 0">
       <table-footer
         :store="store"
         :layout="layout"
@@ -52,6 +56,7 @@
     </div>
     <div class="el-table__fixed" ref="fixedWrapper"
       v-if="fixedColumns.length > 0"
+      v-mousewheel="handleFixedMousewheel"
       :style="[
         { width: layout.fixedWidth ? layout.fixedWidth + 'px' : '' },
         fixedHeight
@@ -93,6 +98,7 @@
     </div>
     <div class="el-table__fixed-right" ref="rightFixedWrapper"
       v-if="rightFixedColumns.length > 0"
+      v-mousewheel="handleFixedMousewheel"
       :style="[
         { width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : '' },
         { right: layout.scrollY ? (border ? layout.gutterWidth : (layout.gutterWidth || 1)) + 'px' : '' },
@@ -122,7 +128,10 @@
           :style="{ width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : '' }">
         </table-body>
       </div>
-      <div class="el-table__fixed-footer-wrapper" ref="rightFixedFooterWrapper" v-if="showSummary" v-show="data && data.length > 0">
+      <div class="el-table__fixed-footer-wrapper"
+        ref="rightFixedFooterWrapper"
+        v-if="showSummary"
+        v-show="data && data.length > 0">
         <table-footer
           fixed="right"
           :border="border"
@@ -145,6 +154,7 @@
   import throttle from 'throttle-debounce/throttle';
   import debounce from 'throttle-debounce/debounce';
   import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
+  import Mousewheel from 'element-ui/src/directives/mousewheel';
   import Locale from 'element-ui/src/mixins/locale';
   import TableStore from './table-store';
   import TableLayout from './table-layout';
@@ -159,6 +169,10 @@
     name: 'ElTable',
 
     mixins: [Locale],
+
+    directives: {
+      Mousewheel
+    },
 
     props: {
       data: {
@@ -249,6 +263,29 @@
         this.layout.updateScrollY();
       },
 
+      handleFixedMousewheel(event, data) {
+        const bodyWrapper = this.bodyWrapper;
+        if (Math.abs(data.spinY) > 0) {
+          const currentScrollTop = bodyWrapper.scrollTop;
+          if (data.pixelY < 0 && currentScrollTop !== 0) {
+            event.preventDefault();
+          }
+          if (data.pixelY > 0 && bodyWrapper.scrollHeight - bodyWrapper.clientHeight > currentScrollTop) {
+            event.preventDefault();
+          }
+          bodyWrapper.scrollTop += Math.ceil(data.pixelY / 5);
+        } else {
+          bodyWrapper.scrollLeft += Math.ceil(data.pixelX / 5);
+        }
+      },
+
+      handleHeaderFooterMousewheel(event, data) {
+        const { pixelX, pixelY } = data;
+        if (Math.abs(pixelX) >= Math.abs(pixelY)) {
+          this.bodyWrapper.scrollLeft += data.pixelX / 5;
+        }
+      },
+
       bindEvents() {
         const { headerWrapper, footerWrapper } = this.$refs;
         const refs = this.$refs;
@@ -257,7 +294,7 @@
           if (footerWrapper) footerWrapper.scrollLeft = this.scrollLeft;
           if (refs.fixedBodyWrapper) refs.fixedBodyWrapper.scrollTop = this.scrollTop;
           if (refs.rightFixedBodyWrapper) refs.rightFixedBodyWrapper.scrollTop = this.scrollTop;
-        });
+        }, { passive: true });
 
         const scrollBodyWrapper = event => {
           const { deltaX, deltaY } = event;
