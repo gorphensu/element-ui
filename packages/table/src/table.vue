@@ -22,9 +22,7 @@
     <div
       class="el-table__body-wrapper"
       ref="bodyWrapper"
-      :style="[bodyHeight, {
-        'overflow-x': layout.scrollX ? '' : 'hidden'
-      }]">
+      :style="[bodyHeight]">
       <table-body
         :context="context"
         :store="store"
