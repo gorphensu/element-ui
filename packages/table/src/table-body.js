@@ -28,12 +28,12 @@ export default {
   },
 
   render(h) {
-    let tmpFixedColumns = !this.fixed
-      ? this.columns
-      : this.fixed === 'right'
-        ? this.rightFixedColumns
-        : this.fixedColumns;
-    // let tmpFixedColumns = this.columns;
+    // let tmpFixedColumns = !this.fixed
+    //   ? this.columns
+    //   : this.fixed === 'right'
+    //     ? this.rightFixedColumns
+    //     : this.fixedColumns;
+    let tmpFixedColumns = this.columns;
     const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
     return (
       <table

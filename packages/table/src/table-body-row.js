@@ -13,14 +13,14 @@ export default {
   },
   watch: {
     // 当数据改变后，再计算一下layout
-    row: {
-      deep: true,
-      handler: function(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          this.debounceTriggerEvent();
-        }
-      }
-    }
+    // row: {
+    //   deep: true,
+    //   handler: function(newVal, oldVal) {
+    //     if (newVal !== oldVal) {
+    //       this.debounceTriggerEvent();
+    //     }
+    //   }
+    // }
   },
   render(h) {
     let $index = this.index;
@@ -43,16 +43,16 @@ export default {
   },
   created() {
     // this.debounceTriggerEvent = debounce(20, this.triggerEvent);
-    this.debounceTriggerEvent = this.triggerEvent;
-    this.bindEvent();
+    // this.debounceTriggerEvent = this.triggerEvent;
+    // this.bindEvent();
   },
   mounted() {
-    setTimeout(() => {
-      this.debounceTriggerEvent();
-    });
+    // setTimeout(() => {
+    //   this.debounceTriggerEvent();
+    // });
   },
   beforeDestroy() {
-    this.unbind();
+    // this.unbind();
   },
   methods: {
     triggerEvent() {
