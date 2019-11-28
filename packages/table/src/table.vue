@@ -231,6 +231,7 @@
       tooltipEffect: String,
 
       spanMethod: Function
+
     },
 
     components: {

@@ -24,7 +24,7 @@ export default {
     rowClassName: [String, Function],
     rowStyle: [Object, Function],
     fixed: String,
-    highlight: Boolean
+    highlight: Boolean,
   },
 
   render(h) {
@@ -34,6 +34,13 @@ export default {
     //     ? this.rightFixedColumns
     //     : this.fixedColumns;
     let tmpFixedColumns = this.columns;
+    if (this.rowHeight) {
+      tmpFixedColumns = !this.fixed
+      ? this.columns
+      : this.fixed === 'right'
+        ? this.rightFixedColumns
+        : this.fixedColumns;
+    }
     const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
     return (
       <table
@@ -201,7 +208,8 @@ export default {
 
   data() {
     return {
-      tooltipContent: ''
+      tooltipContent: '',
+      rowHeight: null
     };
   },
 
@@ -254,6 +262,10 @@ export default {
       const rowStyle = this.rowStyle;
       if (typeof rowStyle === 'function') {
         return rowStyle.call(null, row, index);
+      }
+      // 如果设置height
+      if (rowStyle.height && !this.rowHeight) {
+        this.rowHeight = Number(rowStyle.height.replace('px', ''))
       }
       return rowStyle;
     },
