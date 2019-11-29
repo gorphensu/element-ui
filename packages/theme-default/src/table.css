@@ -387,6 +387,10 @@
       padding-left: 18px;
       padding-right: 18px;
     }
+    & .cell.has-row-height {
+      display: flex;
+      align-items: center;
+    }
 
     & tr input[type="checkbox"] {
       margin: 0;

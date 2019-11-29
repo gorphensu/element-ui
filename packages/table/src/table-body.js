@@ -25,6 +25,7 @@ export default {
     rowStyle: [Object, Function],
     fixed: String,
     highlight: Boolean,
+    rowHeight: Number
   },
 
   render(h) {
@@ -208,8 +209,7 @@ export default {
 
   data() {
     return {
-      tooltipContent: '',
-      rowHeight: null
+      tooltipContent: ''
     };
   },
 
@@ -262,10 +262,6 @@ export default {
       const rowStyle = this.rowStyle;
       if (typeof rowStyle === 'function') {
         return rowStyle.call(null, row, index);
-      }
-      // 如果设置height
-      if (rowStyle.height && !this.rowHeight) {
-        this.rowHeight = Number(rowStyle.height.replace('px', ''))
       }
       return rowStyle;
     },

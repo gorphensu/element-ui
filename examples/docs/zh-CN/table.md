@@ -958,7 +958,7 @@
     :data="tableData3"
     border
     style="width: 100%"
-    :row-style="{ height: '60px'}"
+    :row-height="80"
     height="250">
     <el-table-column
       fixed

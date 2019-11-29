@@ -176,6 +176,14 @@ export default {
         parent = parent.$parent;
       }
       return parent;
+    },
+    rowHeightStyle() {
+      if (!this.owner.rowHeight) {
+        return {};
+      }
+      return {
+        height: this.owner.rowHeight + 'px'
+      };
     }
   },
 
@@ -296,10 +304,9 @@ export default {
       if (!renderCell) {
         renderCell = DEFAULT_RENDER_CELL;
       }
-
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow
         ? <div class="cell el-tooltip" style={'width:' + (data.column.width || data.column.realWidth) + 'px'}>{ renderCell(h, data) }</div>
-        : <div class="cell">{ renderCell(h, data) }</div>;
+        : <div class={ ['cell', owner.rowHeight ? 'has-row-height': ''] } style={_self.rowHeightStyle}>{ renderCell(h, data) }</div>;
     };
   },
 

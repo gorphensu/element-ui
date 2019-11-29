@@ -1,4 +1,5 @@
 import scrollbarWidth from 'element-ui/src/utils/scrollbar-width';
+import Vue from 'vue';
 
 class TableLayout {
   constructor(options) {
@@ -72,6 +73,9 @@ class TableLayout {
   }
 
   updateHeight() {
+    if (!this.table.$ready) {
+      return Vue.nextTick(() => this.updateHeight());
+    }
     const height = this.tableHeight = this.table.$el.clientHeight;
     const noData = !this.table.data || this.table.data.length === 0;
     const { headerWrapper, footerWrapper } = this.table.$refs;

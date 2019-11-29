@@ -199,9 +199,10 @@ TableStore.prototype.mutations = {
       states.selectable = column.selectable;
       states.reserveSelection = column.reserveSelection;
     }
-
-    this.updateColumns();  // hack for dynamics insert column
-    this.scheduleLayout();
+    if (this.table.$ready) {
+      this.updateColumns();  // hack for dynamics insert column
+      this.scheduleLayout();
+    }
   },
 
   removeColumn(states, column, parent) {
@@ -214,8 +215,10 @@ TableStore.prototype.mutations = {
       array.splice(array.indexOf(column), 1);
     }
 
-    this.updateColumns();  // hack for dynamics remove column
-    this.scheduleLayout();
+    if (this.table.$ready) {
+      this.updateColumns();  // hack for dynamics remove column
+      this.scheduleLayout();
+    }
   },
 
   setHoverRow(states, row) {
