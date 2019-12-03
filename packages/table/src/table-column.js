@@ -192,7 +192,8 @@ export default {
         return {}
       }
       return {
-        '-webkit-line-clamp': this.owner.rowLineNumber
+        '-webkit-line-clamp': this.owner.rowLineNumber,
+        'height': ''
       }
     }
   },

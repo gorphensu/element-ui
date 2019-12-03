@@ -76,6 +76,7 @@ export default {
                         class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
                         rowspan={ rowspan }
                         colspan={ colspan }
+                        style={this.rowHeightStyle}
                         on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
                         on-mouseleave={ this.handleCellMouseLeave }>
                         {
@@ -125,7 +126,7 @@ export default {
                 </tr>, */
                 this.store.states.expandRows.indexOf(row) > -1
                 ? (<tr>
-                    <td colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
+                    <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
                       { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
                     </td>
                   </tr>)
@@ -177,6 +178,17 @@ export default {
   },
 
   computed: {
+    rowHeightStyle() {
+      if (!this.rowHeight) {
+        return {}
+      }
+      if (this.rowLineNumber) {
+        return {
+          height: this.rowHeight + 'px'
+        }
+      }
+      return {}
+    },
     table() {
       return this.$parent;
     },
