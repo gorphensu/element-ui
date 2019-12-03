@@ -25,7 +25,8 @@ export default {
     rowStyle: [Object, Function],
     fixed: String,
     highlight: Boolean,
-    rowHeight: Number
+    rowHeight: Number,
+    rowLineNumber: Number
   },
 
   render(h) {
@@ -63,7 +64,7 @@ export default {
           {
             this._l(this.data, (row, $index) =>
               [
-                <table-body-row row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index) }>
+                <table-body-row row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index)}>
                 {
                   this._l(tmpFixedColumns, (column, cellIndex) => {
                     const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);

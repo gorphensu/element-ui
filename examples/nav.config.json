@@ -138,6 +138,10 @@
               "title": "Table 表格"
             },
             {
+              "path": "/vtable",
+              "title": "虚拟Table 表格"
+            },
+            {
               "path": "/tag",
               "title": "Tag 标签"
             },

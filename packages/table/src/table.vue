@@ -30,6 +30,8 @@
         :store="store"
         :stripe="stripe"
         :layout="layout"
+        :row-height="rowHeight"
+        :row-line-number="rowLineNumber"
         :row-class-name="rowClassName"
         :row-style="rowStyle"
         :highlight="highlightCurrentRow"
@@ -81,6 +83,8 @@
           :layout="layout"
           :highlight="highlightCurrentRow"
           :row-class-name="rowClassName"
+          :row-line-number="rowLineNumber"
+          :row-height="rowHeight"
           :row-style="rowStyle"
           :style="{ width: layout.fixedWidth ? layout.fixedWidth + 'px' : '' }">
         </table-body>
@@ -123,6 +127,8 @@
           :stripe="stripe"
           :layout="layout"
           :row-class-name="rowClassName"
+          :row-line-number="rowLineNumber"
+          :row-height="rowHeight"
           :row-style="rowStyle"
           :highlight="highlightCurrentRow"
           :style="{ width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : '' }">
@@ -216,8 +222,6 @@
 
       rowStyle: [Object, Function],
 
-      rowHeight: Number, // 添加此属性设置行高
-
       highlightCurrentRow: Boolean,
 
       currentRowKey: [String, Number],
@@ -232,8 +236,13 @@
 
       tooltipEffect: String,
 
-      spanMethod: Function
+      spanMethod: Function,
 
+      optimize: [Boolean, Object], // 开启懒加载优化
+
+      rowHeight: Number, // 添加此属性设置行高
+
+      rowLineNumber: Number // 添加此属性设置行显示样式
     },
 
     components: {
@@ -347,6 +356,9 @@
     },
 
     computed: {
+      optimizeX() {
+        return this.optimize === true || this.optimize.column === true;
+      },
       bodyWrapper() {
         return this.$refs.bodyWrapper;
       },

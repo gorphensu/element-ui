@@ -391,6 +391,12 @@
       display: flex;
       align-items: center;
     }
+    
+    & .cell.has-row-linenumber {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
     & tr input[type="checkbox"] {
       margin: 0;

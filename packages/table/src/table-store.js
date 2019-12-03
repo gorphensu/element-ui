@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import debounce from 'throttle-debounce/debounce';
 import { orderBy, getColumnById, getRowIdentity } from './util';
-
+import { optimizeConfig } from './config';
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn;
   if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
@@ -194,6 +194,7 @@ TableStore.prototype.mutations = {
     } else {
       array.push(column);
     }
+    this.initLazyColumns();
 
     if (column.type === 'selection') {
       states.selectable = column.selectable;
@@ -214,6 +215,7 @@ TableStore.prototype.mutations = {
     if (array) {
       array.splice(array.indexOf(column), 1);
     }
+    this.initLazyColumns();
 
     if (this.table.$ready) {
       this.updateColumns();  // hack for dynamics remove column
@@ -320,6 +322,23 @@ TableStore.prototype.updateColumns = function() {
   states.columns = doFlattenColumns(states.originColumns);
   states.isComplex = states.fixedColumns.length > 0 || states.rightFixedColumns.length > 0;
 };
+
+TableStore.prototype.initLazyColumns = function () {
+  const _columns = this.states._columns || [];
+  // TODO 懒加载优化
+  if (this.table.optimizeX) {
+    //  && array.length > optimizeConfig.defaultVisibleColumnSize
+    if (_columns.length > optimizeConfig.defaultVisibleColumnSize) {
+      _columns.forEach((col, index) => {
+        if (index >= optimizeConfig.defaultVisibleColumnSize) {
+          Vue.set(col, 'lazyload', true)
+        } else {
+          Vue.set(col, 'lazyload', false)
+        }
+      })
+    }
+  }
+}
 
 TableStore.prototype.isSelected = function(row) {
   return (this.states.selection || []).indexOf(row) > -1;
