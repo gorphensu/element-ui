@@ -4,6 +4,7 @@ import objectAssign from 'element-ui/src/utils/merge';
 import { getValueByPath } from 'element-ui/src/utils/util';
 import { optimizeConfig } from './config';
 import throttle from 'throttle-debounce/throttle';
+import debounce from 'throttle-debounce/debounce';
 
 let columnIdSeed = 1;
 
@@ -294,7 +295,7 @@ export default {
     column.renderLazyloadCell = function (h) {
       return null
     }
-    this.throttleScrollEvent = throttle(50, () => this.scrollEvent());
+    this.throttleScrollEvent = debounce(50, () => this.scrollEvent());
     column.renderCell = function(h, data) {
       // 未来版本移除
       if (_self.$vnode.data.inlineTemplate) {

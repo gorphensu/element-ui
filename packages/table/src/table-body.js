@@ -2,10 +2,10 @@ import { getCell, getColumnByCell, getRowIdentity } from './util';
 import { hasClass, addClass, removeClass } from 'element-ui/src/utils/dom';
 import ElCheckbox from 'element-ui/packages/checkbox';
 import ElTooltip from 'element-ui/packages/tooltip';
-import debounce from 'throttle-debounce/debounce';
 import TableBodyRow from './table-body-row';
 import { optimizeConfig } from './config';
 import throttle from 'throttle-debounce/throttle';
+import debounce from 'throttle-debounce/debounce';
 
 export default {
   components: {
@@ -305,7 +305,7 @@ export default {
 
   created() {
     this.activateTooltip = debounce(50, tooltip => tooltip.handleShowPopper());
-    this.throttleScrollEvent = throttle(50, () => this.scrollEvent());
+    this.throttleScrollEvent = debounce(50, () => this.scrollEvent());
     // this.throttleScrollEvent = this.scrollEvent;
   },
 
