@@ -127,6 +127,13 @@ export default {
         : this.fixedColumns;
     }
     const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
+    if (this.table.optimizeY && this.rowHeight) {
+      if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
+        this.data.slice(0, optimizeConfig.defaultVisibleRowSize).forEach(row => {
+          this.store.commit('addLoadedRow', row);
+        });
+      }
+    }
     // (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
     return (
       <table
@@ -164,7 +171,7 @@ export default {
                         on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
                         on-mouseleave={ this.handleCellMouseLeave }>
                         {
-                          (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
+                          (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.loadedRows.indexOf(row) > -1)) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
                           column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
                           : null
                         }
@@ -231,13 +238,8 @@ export default {
   },
 
   computed: {
-    visibleDatas() {
-      if (!this.table.optimizeY) {
-        return this.data;
-      }
-      if (this.data.length <= optimizeConfig.defaultVisibleRowSize) {
-        return this.data;
-      }
+    loadedRows() {
+      return this.store.states.loadedRows || []
     },
     rowHeightStyle() {
       if (!this.rowHeight) {
@@ -486,6 +488,9 @@ export default {
         const end = start + visibleCount;
         this.startIndex = start;
         this.endIndex = end;
+        this.data.slice(start, end).forEach(row => {
+          this.store.commit('addLoadedRow', row);
+        })
       }
     }
   }

@@ -71,7 +71,8 @@ const TableStore = function(table, initialState = {}) {
     hoverRow: null,
     filters: {},
     expandRows: [],
-    defaultExpandAll: false
+    defaultExpandAll: false,
+    loadedRows: []
   };
 
   for (let prop in initialState) {
@@ -293,7 +294,16 @@ TableStore.prototype.mutations = {
     }
     table.$emit('select-all', selection);
     states.isAllSelected = value;
-  })
+  }),
+
+  initLoadedRows: function(states) {
+    states.loadedRows = [];
+  },
+  addLoadedRow: function(states, row) {
+    if (states.loadedRows.indexOf(row) === -1) {
+      states.loadedRows.push(row);
+    }
+  }
 };
 
 const doFlattenColumns = (columns) => {
