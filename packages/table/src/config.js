@@ -1,3 +1,4 @@
 export const optimizeConfig = {
-  defaultVisibleColumnSize: 10
+  defaultVisibleColumnSize: 20,
+  defaultVisibleRowSize: 10
 }

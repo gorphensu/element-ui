@@ -359,6 +359,9 @@
       optimizeX() {
         return this.optimize === true || this.optimize.column === true;
       },
+      optimizeY() {
+        return this.optimize === true || this.optimize.row === true;
+      },
       bodyWrapper() {
         return this.$refs.bodyWrapper;
       },

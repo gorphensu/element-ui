@@ -4,6 +4,8 @@ import ElCheckbox from 'element-ui/packages/checkbox';
 import ElTooltip from 'element-ui/packages/tooltip';
 import debounce from 'throttle-debounce/debounce';
 import TableBodyRow from './table-body-row';
+import { optimizeConfig } from './config';
+import throttle from 'throttle-debounce/throttle';
 
 export default {
   components: {
@@ -64,8 +66,9 @@ export default {
           {
             this._l(this.data, (row, $index) =>
               [
-                <table-body-row row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index)}>
+                <table-body-row style={this.trRowHeightStyle} row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index)}>
                 {
+                  (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
                   this._l(tmpFixedColumns, (column, cellIndex) => {
                     const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
                     if (!rowspan || !colspan) {
@@ -84,46 +87,13 @@ export default {
                         }
                       </td>
                     );
-                  },
-                    {/* <td
-                      class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
-                      on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
-                      on-mouseleave={ this.handleCellMouseLeave }>
-                      {
-                        column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
-                      }
-                    </td> */}
-                  )
+                  }
+                  ) : null
                 }
                 {
                   !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
                 }
                 </table-body-row>,
-                /* <tr
-                style={ this.rowStyle ? this.getRowStyle(row, $index) : null }
-                key={ this.table.rowKey ? this.getKeyOfRow(row, $index) : $index }
-                on-dblclick={ ($event) => this.handleDoubleClick($event, row) }
-                on-click={ ($event) => this.handleClick($event, row) }
-                on-contextmenu={ ($event) => this.handleContextMenu($event, row) }
-                on-mouseenter={ _ => this.handleMouseEnter($index) }
-                on-mouseleave={ _ => this.handleMouseLeave() }
-                class={ [this.getRowClass(row, $index)] }>
-                {
-                  this._l(tmpFixedColumns, (column, cellIndex) =>
-                    <td
-                      class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
-                      on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
-                      on-mouseleave={ this.handleCellMouseLeave }>
-                      {
-                        column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
-                      }
-                    </td>
-                  )
-                }
-                {
-                  !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
-                }
-                </tr>, */
                 this.store.states.expandRows.indexOf(row) > -1
                 ? (<tr>
                     <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
@@ -178,6 +148,14 @@ export default {
   },
 
   computed: {
+    visibleDatas() {
+      if (!this.table.optimizeY) {
+        return this.data;
+      }
+      if (this.data.length <= optimizeConfig.defaultVisibleRowSize) {
+        return this.data;
+      }
+    },
     rowHeightStyle() {
       if (!this.rowHeight) {
         return {}
@@ -188,6 +166,14 @@ export default {
         }
       }
       return {}
+    },
+    trRowHeightStyle() {
+      if (!this.rowHeight) {
+        return {}
+      }
+      return {
+        height: this.rowHeight + 'px'
+      }
     },
     table() {
       return this.$parent;
@@ -217,17 +203,39 @@ export default {
     },
     rightFixedColumns() {
       return this.store.states.rightFixedColumns;
+    },
+
+    loadedRows() {
+      return this.store.states.loadedRows;
     }
   },
 
   data() {
     return {
-      tooltipContent: ''
+      tooltipContent: '',
+      startIndex: 0,
+      endIndex: optimizeConfig.defaultVisibleRowSize - 1
     };
   },
 
   created() {
     this.activateTooltip = debounce(50, tooltip => tooltip.handleShowPopper());
+    this.throttleScrollEvent = throttle(50, () => this.scrollEvent());
+    // this.throttleScrollEvent = this.scrollEvent;
+  },
+
+  mounted() {
+    // 行懒加载优化
+    if (this.table.optimizeY && this.rowHeight) {
+      this.bindEvent();
+    }
+  },
+
+  beforeDestroy() {
+    // 行懒加载优化
+    if (this.table.optimizeY && this.rowHeight) {
+      this.unbindEvent();
+    }
   },
 
   methods: {
@@ -369,6 +377,33 @@ export default {
 
     handleExpandClick(row) {
       this.store.commit('toggleRowExpanded', row);
+    },
+    bindEvent() {
+      this.table.bodyWrapper && this.table.bodyWrapper.addEventListener('scroll', this.throttleScrollEvent, {
+        passive: true
+      });
+    },
+    unbindEvent() {
+      this.table.bodyWrapper && this.table.bodyWrapper.removeEventListener('scroll', this.throttleScrollEvent);
+    },
+    scrollEvent() {
+      if (this.data.length <= optimizeConfig.defaultVisibleRowSize) {
+        return
+      }
+      let bodyWrapper = this.table.bodyWrapper;
+      if (bodyWrapper) {
+        let scrollTop = bodyWrapper.scrollTop;
+        let clientHeight = bodyWrapper.offsetHeight;
+        let rowHeight = this.rowHeight;
+        const visibleCount = optimizeConfig.defaultVisibleRowSize;
+        let start = Math.floor(scrollTop / rowHeight);
+        if (start + visibleCount > this.data.length) {
+          start = this.data.length - visibleCount
+        }
+        const end = start + visibleCount;
+        this.startIndex = start;
+        this.endIndex = end;
+      }
     }
   }
 };
