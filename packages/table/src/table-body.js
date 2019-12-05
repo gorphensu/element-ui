@@ -31,7 +31,7 @@ export default {
     rowLineNumber: Number
   },
 
-  render(h) {
+  render2(h) {
     // let tmpFixedColumns = !this.fixed
     //   ? this.columns
     //   : this.fixed === 'right'
@@ -89,6 +89,89 @@ export default {
                     );
                   }
                   ) : null
+                }
+                {
+                  !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
+                }
+                </table-body-row>,
+                this.store.states.expandRows.indexOf(row) > -1
+                ? (<tr>
+                    <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
+                      { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
+                    </td>
+                  </tr>)
+                : ''
+              ]
+            ).concat(
+              this._self.$parent.$slots.append
+            ).concat(
+              <el-tooltip effect={ this.table.tooltipEffect } placement="top" ref="tooltip" content={ this.tooltipContent }></el-tooltip>
+            )
+          }
+        </tbody>
+      </table>
+    );
+  },
+  render(h) {
+    // let tmpFixedColumns = !this.fixed
+    //   ? this.columns
+    //   : this.fixed === 'right'
+    //     ? this.rightFixedColumns
+    //     : this.fixedColumns;
+    let tmpFixedColumns = this.columns;
+    if (this.rowHeight) {
+      tmpFixedColumns = !this.fixed
+      ? this.columns
+      : this.fixed === 'right'
+        ? this.rightFixedColumns
+        : this.fixedColumns;
+    }
+    const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
+    // (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
+    return (
+      <table
+        class="el-table__body"
+        cellspacing="0"
+        cellpadding="0"
+        border="0">
+        <colgroup>
+          {
+            this._l(tmpFixedColumns, column =>
+              <col
+                name={ column.id }
+                width={ column.width || column.realWidth }
+                key={ column.id }
+              />)
+          }
+        </colgroup>
+        <tbody>
+          {
+            this._l(this.data, (row, $index) =>
+              [
+                <table-body-row style={this.trRowHeightStyle} row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index)}>
+                {
+                  this._l(tmpFixedColumns, (column, cellIndex) => {
+                    const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
+                    if (!rowspan || !colspan) {
+                      return null;
+                    }
+                    return (
+                      <td
+                        class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
+                        rowspan={ rowspan }
+                        colspan={ colspan }
+                        style={this.rowHeightStyle}
+                        on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
+                        on-mouseleave={ this.handleCellMouseLeave }>
+                        {
+                          (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
+                          column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
+                          : null
+                        }
+                      </td>
+                    );
+                  }
+                  )
                 }
                 {
                   !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
