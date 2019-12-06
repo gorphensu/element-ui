@@ -34,6 +34,7 @@
         :row-line-number="rowLineNumber"
         :row-class-name="rowClassName"
         :row-style="rowStyle"
+        :column-width="columnWidth"
         :highlight="highlightCurrentRow"
         :style="{ width: bodyWidth }">
       </table-body>
@@ -86,6 +87,7 @@
           :row-line-number="rowLineNumber"
           :row-height="rowHeight"
           :row-style="rowStyle"
+          :column-width="columnWidth"
           :style="{ width: layout.fixedWidth ? layout.fixedWidth + 'px' : '' }">
         </table-body>
       </div>
@@ -130,6 +132,7 @@
           :row-line-number="rowLineNumber"
           :row-height="rowHeight"
           :row-style="rowStyle"
+          :column-width="columnWidth"
           :highlight="highlightCurrentRow"
           :style="{ width: layout.rightFixedWidth ? layout.rightFixedWidth + 'px' : '' }">
         </table-body>
@@ -242,7 +245,9 @@
 
       rowHeight: Number, // 添加此属性设置行高
 
-      rowLineNumber: Number // 添加此属性设置行显示样式
+      rowLineNumber: Number, // 添加此属性设置行显示样式
+
+      columnWidth: Number // 添加此属性设置列宽
     },
 
     components: {
@@ -406,13 +411,19 @@
               : this.maxHeight - this.layout.footerHeight) + 'px'
           };
         }
-
         return style;
       },
 
       bodyWidth() {
         const { bodyWidth, scrollY, gutterWidth } = this.layout;
         return bodyWidth ? bodyWidth - (scrollY ? gutterWidth : 0) + 'px' : '';
+      },
+      headerBodyWidth() {
+        const { bodyWidth, scrollY, gutterWidth } = this.layout;
+        if (this.optimizeY && this.rowHeight && this.scrollY) {
+          return bodyWidth - gutterWidth;
+        }
+        return bodyWidth;
       },
 
       fixedBodyHeight() {
@@ -452,6 +463,16 @@
           };
         }
         return style;
+      },
+      visibleRowCount () {
+        if (this.rowHeight) {
+          return Math.ceil((this.height || this.maxHeight) / this.rowHeight);
+        }
+        return 0;
+      },
+
+      virtualBodyHeight () {
+        return this.data.length * this.rowHeight;
       }
     },
 
@@ -496,7 +517,6 @@
           });
         }
       });
-
       this.$ready = true;
     },
 

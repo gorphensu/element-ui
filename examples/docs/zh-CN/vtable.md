@@ -1987,3 +1987,431 @@
 </script>
 ```
 :::
+
+### 固定列和表头
+
+横纵内容过多时，可选择固定列和表头。 固定行高 行数 宽高
+
+:::demo 固定列和表头可以同时使用，只需要将上述两个属性分别设置好即可。
+```html
+<template>
+  <el-table
+    :data="tableData"
+    border
+    style="width: 100%"
+    :row-height="80"
+    :row-line-number="2"
+    :column-width="200"
+    :optimize="true"
+    height="250">
+    <el-table-column
+      fixed
+      prop="date"
+      label="日期"
+      width="150">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="姓名"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="province"
+      label="省份"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city"
+      label="市区"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city1"
+      label="市区1"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city2"
+      label="市区2"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city3"
+      label="市区3"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city4"
+      label="市区4"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city5"
+      label="市区5"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city6"
+      label="市区6"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city7"
+      label="市区7"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city8"
+      label="市区8"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city9"
+      label="市区9"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city10"
+      label="市区10"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city11"
+      label="市区11"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city12"
+      label="市区12"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city13"
+      label="市区13"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city14"
+      label="市区14"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city15"
+      label="市区15"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city16"
+      label="市区16"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city17"
+      label="市区17"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city18"
+      label="市区18"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city19"
+      label="市区19"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city20"
+      label="市区20"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="地址"
+      width="150">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+  </el-table>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        tableData: [{
+          date: '2016-05-03',
+          name: '王小虎王小虎王小虎王小虎王小虎王小虎王小虎王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-02',
+          name: '王小虎王小虎王小虎王小虎王小虎王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-07',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }]
+      }
+    }
+  }
+</script>
+```
+:::
+
+### 固定列和表头
+
+横纵内容过多时，可选择固定列和表头。 固定行高 行数 宽高 自定义列模板
+
+:::demo 固定列和表头可以同时使用，只需要将上述两个属性分别设置好即可。
+```html
+<template>
+  <el-table
+    :data="tableData"
+    border
+    style="width: 100%"
+    :row-height="80"
+    :row-line-number="2"
+    :column-width="200"
+    :optimize="true"
+    height="250">
+    <el-table-column
+      fixed
+      prop="date"
+      label="日期"
+      width="150">
+      <template scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="姓名"
+      width="120">
+      <template scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.name }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="province"
+      label="省份"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city"
+      label="市区"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city1"
+      label="市区1"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city2"
+      label="市区2"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city3"
+      label="市区3"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city4"
+      label="市区4"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city5"
+      label="市区5"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city6"
+      label="市区6"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city7"
+      label="市区7"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city8"
+      label="市区8"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city9"
+      label="市区9"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city10"
+      label="市区10"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city11"
+      label="市区11"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city12"
+      label="市区12"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city13"
+      label="市区13"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city14"
+      label="市区14"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city15"
+      label="市区15"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city16"
+      label="市区16"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city17"
+      label="市区17"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city18"
+      label="市区18"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city19"
+      label="市区19"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="city20"
+      label="市区20"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="地址"
+      width="150">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+  </el-table>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        tableData: [{
+          date: '2016-05-03',
+          name: '王小虎王小虎王小虎王小虎王小虎王小虎王小虎王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-02',
+          name: '王小虎王小虎王小虎王小虎王小虎王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-07',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }]
+      }
+    }
+  }
+</script>
+```
+:::

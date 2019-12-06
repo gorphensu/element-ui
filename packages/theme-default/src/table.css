@@ -286,7 +286,11 @@
       overflow: auto;
       position: relative;
     }
-
+    @e virtual-wrapper {
+      & .el-table__body {
+        width: 100%;
+      }
+    }
     & th.required > div::before {
       display: inline-block;
       content: "";

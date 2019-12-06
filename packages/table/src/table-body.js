@@ -28,9 +28,9 @@ export default {
     fixed: String,
     highlight: Boolean,
     rowHeight: Number,
-    rowLineNumber: Number
+    rowLineNumber: Number,
+    columnWidth: Number
   },
-
   render2(h) {
     // let tmpFixedColumns = !this.fixed
     //   ? this.columns
@@ -46,6 +46,16 @@ export default {
         : this.fixedColumns;
     }
     const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
+    if (this.table.optimizeY && this.rowHeight) {
+      if (!this.columnWidth) {
+        if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
+          this.data.slice(0, optimizeConfig.defaultVisibleRowSize).forEach(row => {
+            this.store.commit('addLoadedRow', row);
+          });
+        }
+      } else {
+      }
+    }
     return (
       <table
         class="el-table__body"
@@ -64,36 +74,39 @@ export default {
         </colgroup>
         <tbody>
           {
-            this._l(this.data, (row, $index) =>
+            this._l(this.visibleData, (row, $index) =>
               [
-                <table-body-row style={this.trRowHeightStyle} row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index)}>
-                {
-                  (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
-                  this._l(tmpFixedColumns, (column, cellIndex) => {
-                    const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
-                    if (!rowspan || !colspan) {
-                      return null;
-                    }
-                    return (
-                      <td
-                        class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
-                        rowspan={ rowspan }
-                        colspan={ colspan }
-                        style={this.rowHeightStyle}
-                        on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
-                        on-mouseleave={ this.handleCellMouseLeave }>
-                        {
-                          column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
+                <tr
+                    style={ [this.rowStyle ? this.getRowStyle(row, $index) : null, this.trRowHeightStyle] }
+                    key={ this.table.rowKey ? this.getKeyOfRow(row, $index) : $index }
+                    on-dblclick={ ($event) => this.handleDoubleClick($event, row) }
+                    on-click={ ($event) => this.handleClick($event, row) }
+                    on-contextmenu={ ($event) => this.handleContextMenu($event, row) }
+                    on-mouseenter={ _ => this.handleMouseEnter($index) }
+                    on-mouseleave={ _ => this.handleMouseLeave() }
+                    class={ [this.getRowClass(row, $index)] }>
+                    {
+                      this._l(tmpFixedColumns, (column, cellIndex) => {
+                        const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
+                        if (!rowspan || !colspan) {
+                          return null;
                         }
-                      </td>
-                    );
-                  }
-                  ) : null
-                }
-                {
-                  !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
-                }
-                </table-body-row>,
+                        return (<td
+                          style={this.rowHeightStyle}
+                          class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
+                          on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
+                          on-mouseleave={ this.handleCellMouseLeave }>
+                          {
+                            column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
+                          }
+                        </td>)
+                      }
+                      )
+                    }
+                    {
+                      !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
+                    }
+                  </tr>,
                 this.store.states.expandRows.indexOf(row) > -1
                 ? (<tr>
                     <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
@@ -113,6 +126,9 @@ export default {
     );
   },
   render(h) {
+    if (!this.rowHeight || !this.table.optimizeY) {
+      return this.$options.render2.call(this, h);
+    }
     // let tmpFixedColumns = !this.fixed
     //   ? this.columns
     //   : this.fixed === 'right'
@@ -128,78 +144,88 @@ export default {
     }
     const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
     if (this.table.optimizeY && this.rowHeight) {
-      if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
-        this.data.slice(0, optimizeConfig.defaultVisibleRowSize).forEach(row => {
-          this.store.commit('addLoadedRow', row);
-        });
+      if (!this.columnWidth) {
+        if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
+          this.data.slice(0, optimizeConfig.defaultVisibleRowSize).forEach(row => {
+            this.store.commit('addLoadedRow', row);
+          });
+        }
+      } else {
       }
     }
-    // (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
     return (
-      <table
-        class="el-table__body"
-        cellspacing="0"
-        cellpadding="0"
-        border="0">
-        <colgroup>
-          {
-            this._l(tmpFixedColumns, column =>
-              <col
-                name={ column.id }
-                width={ column.width || column.realWidth }
-                key={ column.id }
-              />)
-          }
-        </colgroup>
-        <tbody>
-          {
-            this._l(this.data, (row, $index) =>
-              [
-                <table-body-row style={this.trRowHeightStyle} row={row} index={$index} parent={this} key={ this.getKeyOfRow(row, $index)}>
-                {
-                  this._l(tmpFixedColumns, (column, cellIndex) => {
-                    const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
-                    if (!rowspan || !colspan) {
-                      return null;
-                    }
-                    return (
-                      <td
-                        class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
-                        rowspan={ rowspan }
-                        colspan={ colspan }
-                        style={this.rowHeightStyle}
-                        on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
-                        on-mouseleave={ this.handleCellMouseLeave }>
-                        {
-                          (!this.table.optimizeY || (this.table.optimizeY && !this.rowHeight) || (this.table.optimizeY && this.rowHeight && (this.loadedRows.indexOf(row) > -1)) || (this.table.optimizeY && this.rowHeight && (this.startIndex <= $index && this.endIndex >= $index))) ?
-                          column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
-                          : null
+      <div
+        class={['el-table__virtual-wrapper', {'el-table--fixed__virtual-wrapper': this.fixed}]}
+        style={{height: this.table.virtualBodyHeight + 'px'}} >
+        <div style={[{transform: `translateY(${this.innerTop}px)`}]}>
+        <table
+          class="el-table__body"
+          cellspacing="0"
+          cellpadding="0"
+          border="0">
+          <colgroup>
+            {
+              this._l(tmpFixedColumns, column =>
+                <col
+                  name={ column.id }
+                  width={ column.width || column.realWidth }
+                  key={ column.id }
+                />)
+            }
+          </colgroup>
+          <tbody>
+            {
+              this._l(this.visibleData, (row, $index) =>
+                [
+                  <tr
+                    style={ [this.rowStyle ? this.getRowStyle(row, $index) : null, this.trRowHeightStyle] }
+                    key={ this.table.rowKey ? this.getKeyOfRow(row, $index) : $index }
+                    on-dblclick={ ($event) => this.handleDoubleClick($event, row) }
+                    on-click={ ($event) => this.handleClick($event, row) }
+                    on-contextmenu={ ($event) => this.handleContextMenu($event, row) }
+                    on-mouseenter={ _ => this.handleMouseEnter($index) }
+                    on-mouseleave={ _ => this.handleMouseLeave() }
+                    class={ [this.getRowClass(row, $index)] }>
+                    {
+                      this._l(tmpFixedColumns, (column, cellIndex) => {
+                        const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
+                        if (!rowspan || !colspan) {
+                          return null;
                         }
+                        return (<td
+                          style={this.rowHeightStyle}
+                          class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : '' ] }
+                          on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
+                          on-mouseleave={ this.handleCellMouseLeave }>
+                          {
+                            column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
+                          }
+                        </td>)
+                      }
+                      )
+                    }
+                    {
+                      !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
+                    }
+                  </tr>,
+                  this.store.states.expandRows.indexOf(row) > -1
+                  ? (<tr>
+                      <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
+                        { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
                       </td>
-                    );
-                  }
-                  )
-                }
-                {
-                  !this.fixed && this.layout.scrollY && this.layout.gutterWidth ? <td class="gutter" /> : ''
-                }
-                </table-body-row>,
-                this.store.states.expandRows.indexOf(row) > -1
-                ? (<tr>
-                    <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
-                      { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
-                    </td>
-                  </tr>)
-                : ''
-              ]
-            ).concat(
-              this._self.$parent.$slots.append
-            ).concat(
-              <el-tooltip effect={ this.table.tooltipEffect } placement="top" ref="tooltip" content={ this.tooltipContent }></el-tooltip>
-            )
-          }
-        </tbody>
-      </table>
+                    </tr>)
+                  : ''
+                ]
+              ).concat(
+                this._self.$parent.$slots.append
+              ).concat(
+                <el-tooltip effect={ this.table.tooltipEffect } placement="top" ref="tooltip" content={ this.tooltipContent }></el-tooltip>
+              )
+            }
+          </tbody>
+        </table>
+        </div>
+      </div>
     );
   },
 
@@ -238,6 +264,12 @@ export default {
   },
 
   computed: {
+    visibleData() {
+      if (this.table.optimizeY && this.rowHeight) {
+        return this.data.slice(this.startIndex, this.endIndex);
+      }
+      return this.data
+    },
     loadedRows() {
       return this.store.states.loadedRows || []
     },
@@ -299,14 +331,20 @@ export default {
     return {
       tooltipContent: '',
       startIndex: 0,
-      endIndex: optimizeConfig.defaultVisibleRowSize - 1
+      endIndex: optimizeConfig.defaultVisibleRowSize - 1,
+      visibleCount: optimizeConfig.defaultVisibleRowSize,
+      scrollTop: 0,
+      excessRows: 3,
+      innerTop: 0
     };
   },
 
   created() {
     this.activateTooltip = debounce(50, tooltip => tooltip.handleShowPopper());
-    this.throttleScrollEvent = debounce(50, () => this.scrollEvent());
-    // this.throttleScrollEvent = this.scrollEvent;
+    // this.throttleScrollEvent = debounce(50, (e) => this.scrollEvent(e));
+    this.throttleScrollEvent = this.scrollEvent;
+    this.visibleCount = this.table.visibleRowCount;
+    this.endIndex = this.startIndex + this.visibleCount;
   },
 
   mounted() {
@@ -324,6 +362,15 @@ export default {
   },
 
   methods: {
+    getVisibleCount() {
+      let bodyWrapper = this.table && this.table.bodyWrapper;
+      if (bodyWrapper) {
+        let scrollTop = bodyWrapper.scrollTop;
+        let clientHeight = bodyWrapper.offsetHeight;
+        return Math.ceil(clientHeight / this.rowHeight);
+      }
+      return optimizeConfig.defaultVisibleRowSize
+    },
     getKeyOfRow(row, index) {
       const rowKey = this.table.rowKey;
       if (rowKey) {
@@ -471,26 +518,54 @@ export default {
     unbindEvent() {
       this.table.bodyWrapper && this.table.bodyWrapper.removeEventListener('scroll', this.throttleScrollEvent);
     },
-    scrollEvent() {
-      if (this.data.length <= optimizeConfig.defaultVisibleRowSize) {
+    scrollEvent2(e) {
+      if (this.data.length <= this.visibleCount && (!this.columnWidth || true)) {
         return
       }
-      let bodyWrapper = this.table.bodyWrapper;
+      let bodyWrapper = this.table && this.table.bodyWrapper;
       if (bodyWrapper) {
         let scrollTop = bodyWrapper.scrollTop;
+        this.scrollTop = scrollTop;
         let clientHeight = bodyWrapper.offsetHeight;
         let rowHeight = this.rowHeight;
-        const visibleCount = optimizeConfig.defaultVisibleRowSize;
         let start = Math.floor(scrollTop / rowHeight);
-        if (start + visibleCount > this.data.length) {
-          start = this.data.length - visibleCount
+        let end = start + this.visibleCount;
+        if (end > this.data.length) {
+          end = this.data.length;
+          start = end - this.visibleCount;
         }
-        const end = start + visibleCount;
         this.startIndex = start;
         this.endIndex = end;
-        this.data.slice(start, end).forEach(row => {
-          this.store.commit('addLoadedRow', row);
-        })
+        console.log(this.startIndex, this.endIndex, this.innerTop);
+      }
+    },
+    scrollEvent(e) {
+      if (this.data.length <= this.visibleCount) {
+        return
+      }
+      let bodyWrapper = this.table && this.table.bodyWrapper;
+      if (bodyWrapper) {
+        let scrollTop = bodyWrapper.scrollTop;
+        const bodyScrollHeight = this.visibleCount * this.rowHeight;
+        // this.scrollTop = scrollTop;
+        if (this.table.virtualBodyHeight < scrollTop + bodyScrollHeight) {
+          scrollTop = this.table.virtualBodyHeight - bodyScrollHeight;
+        }
+        this.scrollTop = scrollTop;
+        let startIndex = parseInt(scrollTop / this.rowHeight);
+        const { start, end } = this.getVisibleRange(startIndex)
+        this.startIndex = start
+        this.endIndex = end
+        this.innerTop = this.startIndex * this.rowHeight
+        console.log(this.startIndex, this.endIndex, this.innerTop);
+      }
+    },
+    getVisibleRange (expectStart) {
+      const start = expectStart - this.excessRows
+
+      return {
+        start: start >= 0 ? start : 0,
+        end: expectStart + this.visibleCount + this.excessRows
       }
     }
   }
