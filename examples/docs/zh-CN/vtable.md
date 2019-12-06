@@ -4,6 +4,7 @@
       return {
         
         tableData: [{
+          id: '0',
           date: '2016-05-03',
           name: '王小虎abc王小虎王小虎abc王小虎小虎abc王小虎0',
           province: '上海',
@@ -32,6 +33,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '1',
           date: '2016-05-02',
           name: '王小虎1',
           province: '上海',
@@ -60,6 +62,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '2',
           date: '2016-05-04',
           name: '王小虎2',
           province: '上海',
@@ -88,6 +91,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '3',
           date: '2016-05-01',
           name: '王小虎3',
           province: '上海',
@@ -116,6 +120,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '4',
           date: '2016-05-08',
           name: '王小虎4',
           province: '上海',
@@ -144,6 +149,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '5',
           date: '2016-05-06',
           name: '王小虎5',
           province: '上海',
@@ -172,6 +178,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '6',
           date: '2016-05-07',
           name: '王小虎6',
           province: '上海',
@@ -200,6 +207,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '7',
           date: '2016-05-07',
           name: '王小虎7',
           province: '上海',
@@ -228,6 +236,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '8',
           date: '2016-05-07',
           name: '王小虎8',
           province: '上海',
@@ -256,6 +265,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '9',
           date: '2016-05-07',
           name: '王小虎9',
           province: '上海',
@@ -284,6 +294,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '10',
           date: '2016-05-07',
           name: '王小虎10',
           province: '上海',
@@ -312,6 +323,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '11',
           date: '2016-05-07',
           name: '王小虎11',
           province: '上海',
@@ -340,6 +352,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '12',
           date: '2016-05-07',
           name: '王小虎12',
           province: '上海',
@@ -368,6 +381,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '13',
           date: '2016-05-07',
           name: '王小虎13',
           province: '上海',
@@ -396,6 +410,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '14',
           date: '2016-05-07',
           name: '王小虎14',
           province: '上海',
@@ -424,6 +439,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '15',
           date: '2016-05-07',
           name: '王小虎15',
           province: '上海',
@@ -452,6 +468,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '16',
           date: '2016-05-07',
           name: '王小虎16',
           province: '上海',
@@ -480,6 +497,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '17',
           date: '2016-05-07',
           name: '王小虎17',
           province: '上海',
@@ -508,6 +526,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '18',
           date: '2016-05-07',
           name: '王小虎18',
           province: '上海',
@@ -536,6 +555,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '19',
           date: '2016-05-07',
           name: '王小虎19',
           province: '上海',
@@ -564,6 +584,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '20',
           date: '2016-05-07',
           name: '王小虎20',
           province: '上海',
@@ -592,6 +613,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '21',
           date: '2016-05-07',
           name: '王小虎21',
           province: '上海',
@@ -620,6 +642,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '22',
           date: '2016-05-07',
           name: '王小虎22',
           province: '上海',
@@ -648,6 +671,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '23',
           date: '2016-05-07',
           name: '王小虎23',
           province: '上海',
@@ -676,6 +700,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '24',
           date: '2016-05-07',
           name: '王小虎24',
           province: '上海',
@@ -704,6 +729,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '25',
           date: '2016-05-07',
           name: '王小虎25',
           province: '上海',
@@ -732,6 +758,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '26',
           date: '2016-05-07',
           name: '王小虎26',
           province: '上海',
@@ -760,6 +787,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '27',
           date: '2016-05-07',
           name: '王小虎27',
           province: '上海',
@@ -788,6 +816,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '28',
           date: '2016-05-07',
           name: '王小虎28',
           province: '上海',
@@ -816,6 +845,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '29',
           date: '2016-05-07',
           name: '王小虎29',
           province: '上海',
@@ -844,6 +874,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '30',
           date: '2016-05-07',
           name: '王小虎30',
           province: '上海',
@@ -872,6 +903,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '31',
           date: '2016-05-07',
           name: '王小虎31',
           province: '上海',
@@ -900,6 +932,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '32',
           date: '2016-05-07',
           name: '王小虎32',
           province: '上海',
@@ -928,6 +961,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '33',
           date: '2016-05-07',
           name: '王小虎33',
           province: '上海',
@@ -956,6 +990,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '34',
           date: '2016-05-07',
           name: '王小虎34',
           province: '上海',
@@ -984,6 +1019,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '35',
           date: '2016-05-07',
           name: '王小虎35',
           province: '上海',
@@ -1012,6 +1048,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '36',
           date: '2016-05-07',
           name: '王小虎36',
           province: '上海',
@@ -1040,6 +1077,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '37',
           date: '2016-05-07',
           name: '王小虎37',
           province: '上海',
@@ -1068,6 +1106,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '38',
           date: '2016-05-07',
           name: '王小虎38',
           province: '上海',
@@ -1096,6 +1135,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '39',
           date: '2016-05-07',
           name: '王小虎39',
           province: '上海',
@@ -1124,6 +1164,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '40',
           date: '2016-05-07',
           name: '王小虎40',
           province: '上海',
@@ -1152,6 +1193,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '41',
           date: '2016-05-07',
           name: '王小虎41',
           province: '上海',
@@ -1180,6 +1222,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '42',
           date: '2016-05-07',
           name: '王小虎42',
           province: '上海',
@@ -1208,6 +1251,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '43',
           date: '2016-05-07',
           name: '王小虎43',
           province: '上海',
@@ -1236,6 +1280,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '44',
           date: '2016-05-07',
           name: '王小虎44',
           province: '上海',
@@ -1264,6 +1309,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '45',
           date: '2016-05-07',
           name: '王小虎45',
           province: '上海',
@@ -1292,6 +1338,7 @@
           detailAddress: '金沙江路 1518 弄',
           zip: 200333
         }, {
+          id: '46',
           date: '2016-05-07',
           name: '王小虎46',
           province: '上海',
@@ -2210,11 +2257,13 @@
     :data="tableData"
     border
     style="width: 100%"
-    :row-height="80"
+    :row-height="55"
     :row-line-number="2"
     :column-width="200"
     :optimize="true"
+    row-id="id"
     height="250">
+    <el-table-column type="selection" width="60" fixed></el-table-column>
     <el-table-column
       fixed
       prop="date"
@@ -2346,6 +2395,86 @@
       prop="address"
       label="地址"
       width="150">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="zip"
+      label="邮编"
+      width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
