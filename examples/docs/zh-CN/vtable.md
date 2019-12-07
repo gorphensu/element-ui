@@ -1,5 +1,18 @@
 <script>
+  const TestMyColumnItem = {
+    mounted() {
+    },
+    props: ['text'],
+    render(h) {
+      return h('div', {
+        class: 'my-test-column-item'
+      }, this.text)
+    }
+  }
   export default {
+    components: {
+      'test-my-column-item': TestMyColumnItem
+    },
     data() {
       return {
         
@@ -2261,8 +2274,8 @@
     :row-line-number="2"
     :column-width="200"
     :optimize="true"
-    row-id="id"
-    height="250">
+    row-key="id"
+    height="450">
     <el-table-column type="selection" width="60" fixed></el-table-column>
     <el-table-column
       fixed
@@ -2270,7 +2283,7 @@
       label="日期"
       width="150">
       <template scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        <test-my-column-item :text="scope.row.date" key="date" ref="date"></test-my-column-item>
       </template>
     </el-table-column>
     <el-table-column
@@ -2278,123 +2291,192 @@
       label="姓名"
       width="120">
       <template scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.name }}</span>
+        <test-my-column-item :text="scope.row.name" key="name" ref="name"></test-my-column-item>
       </template>
     </el-table-column>
     <el-table-column
       prop="province"
       label="省份"
       width="120">
+      <template scope="scope">
+        <test-my-column-item :text="scope.row.province" key="province" ref="province"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city"
       label="市区"
       width="120">
+      <template scope="scope">
+        <test-my-column-item :text="scope.row.city" key="city" ref="city"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city1"
       label="市区1"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city1" key="city1" ref="city1"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city2"
       label="市区2"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city2" key="city2" ref="city2"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city3"
       label="市区3"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city3" key="city3" ref="city3"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city4"
       label="市区4"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city4" key="city4" ref="city4"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city5"
       label="市区5"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city5" key="city5" ref="city5"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city6"
       label="市区6"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city6" key="city6" ref="city6"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city7"
       label="市区7"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city7" key="city7" ref="city7"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city8"
       label="市区8"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city8" key="city8" ref="city8"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city9"
       label="市区9"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city9" key="city9" ref="city9"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city10"
       label="市区10"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city10" key="city10" ref="city10"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city11"
       label="市区11"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city11" key="city11" ref="city11"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city12"
       label="市区12"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city12" key="city12" ref="city12"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city13"
       label="市区13"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city13" key="city13" ref="city13"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city14"
       label="市区14"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city14" key="city14" ref="city14"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city15"
       label="市区15"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city15" key="city15" ref="city15"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city16"
       label="市区16"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city16" key="city16" ref="city16"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city17"
       label="市区17"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city17" key="city17" ref="city17"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city18"
       label="市区18"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city18" key="city18" ref="city18"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city19"
       label="市区19"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city19" key="city19" ref="city19"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="city20"
       label="市区20"
       width="120">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.city20" key="city20" ref="city20"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="address"
       label="地址"
       width="150">
+      <template scope="scope">
+      <test-my-column-item :text="scope.row.address" key="address" ref="address"></test-my-column-item>
+      </template>
     </el-table-column>
     <el-table-column
       prop="zip"
@@ -2485,7 +2567,18 @@
 </template>
 
 <script>
+  const TestMyColumnItem = {
+    props: ['text'],
+    render(h) {
+      return h('div', {
+        class: 'my-test-column-item'
+      }, this.text)
+    }
+  }
   export default {
+    components: {
+      'test-my-column-item': TestMyColumnItem
+    },
     data() {
       return {
         tableData: [{

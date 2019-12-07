@@ -92,6 +92,8 @@ export default {
                           return null;
                         }
                         return (<td
+                          rowspan={ rowspan }
+                          colspan={ colspan }
                           style={this.rowHeightStyle}
                           class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
                           on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
