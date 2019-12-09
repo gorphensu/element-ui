@@ -309,6 +309,7 @@
         this.bodyWrapper.addEventListener('scroll', function() {
           if (headerWrapper) headerWrapper.scrollLeft = this.scrollLeft;
           if (footerWrapper) footerWrapper.scrollLeft = this.scrollLeft;
+          console.log(headerWrapper.scrollLeft, this.scrollLeft);
           if (refs.fixedBodyWrapper) refs.fixedBodyWrapper.scrollTop = this.scrollTop;
           if (refs.rightFixedBodyWrapper) refs.rightFixedBodyWrapper.scrollTop = this.scrollTop;
         }, { passive: true });
@@ -473,6 +474,13 @@
 
       virtualBodyHeight () {
         return this.data.length * this.rowHeight;
+      },
+
+      virtualBodyWidth() {
+        // this.store.states.columns.reduce((prev, cur) => {
+        //   return prev + (cur.realWidth || cur.width || cur.minWidth)
+        // }, 0)
+        return this.layout.bodyWidth
       }
     },
 

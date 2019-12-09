@@ -196,6 +196,13 @@ export default {
         '-webkit-line-clamp': this.owner.rowLineNumber,
         'height': ''
       }
+    },
+    scrollShow() {
+      let index = this.owner.store.states._columns.findIndex((col) => col.id === this.columnConfig.id);
+      if (index === -1) {
+        return false
+      }
+      return this.owner.store.states._columns[index].scrollShow;
     }
   },
 
@@ -269,7 +276,8 @@ export default {
       filterOpened: false,
       filteredValue: this.filteredValue || [],
       filterPlacement: this.filterPlacement || '',
-      lazyload: false
+      lazyload: false,
+      scrollShow: false
     });
 
     objectAssign(column, forced[type] || {});
@@ -320,9 +328,18 @@ export default {
       if (!renderCell) {
         renderCell = DEFAULT_RENDER_CELL;
       }
+      // return _self.showOverflowTooltip || _self.showTooltipWhenOverflow
+      //   ? <div class="cell el-tooltip" style={'width:' + (data.column.width || data.column.realWidth) + 'px'}>{ renderCell(h, data) }</div>
+      //   : <div class={ ['cell', owner.rowHeight ? 'has-row-height': '', owner.rowLineNumber ? 'has-row-linenumber' : ''] } style={[..._self.rowHeightStyle, _self.rowLineNumberStyle]}>{ column.lazyload ? column.renderLazyloadCell(h, data)  : renderCell(h, data) }</div>;
+      let scrollShow = _self.scrollShow
+      if (column.fixed) {
+        scrollShow = true
+      } else if (!_self.owner.optimizeX) {
+        scrollShow = true
+      }
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow
         ? <div class="cell el-tooltip" style={'width:' + (data.column.width || data.column.realWidth) + 'px'}>{ renderCell(h, data) }</div>
-        : <div class={ ['cell', owner.rowHeight ? 'has-row-height': '', owner.rowLineNumber ? 'has-row-linenumber' : ''] } style={[..._self.rowHeightStyle, _self.rowLineNumberStyle]}>{ column.lazyload ? column.renderLazyloadCell(h, data)  : renderCell(h, data) }</div>;
+        : <div class={ ['cell', owner.rowHeight ? 'has-row-height': '', owner.rowLineNumber ? 'has-row-linenumber' : ''] } style={[..._self.rowHeightStyle, _self.rowLineNumberStyle]}>{ scrollShow ? renderCell(h, data) : column.renderLazyloadCell(h, data) }</div>;
     };
   },
 
@@ -332,7 +349,7 @@ export default {
     this.owner.store.commit('removeColumn', this.columnConfig, this.isSubColumn ? parent.columnConfig : null);
     // 列懒加载优化
     if (this.owner.optimizeX) {
-      this.unbindEvent();
+      // this.unbindEvent();
     }
     // 需要同步行高度
     // 理论上是要非固定行才去发出这个事件，去通知固定行的高度改变
@@ -443,7 +460,8 @@ export default {
     owner.store.commit('insertColumn', this.columnConfig, columnIndex, this.isSubColumn ? parent.columnConfig : null);
     // 列懒加载优化
     if (this.owner.optimizeX) {
-      this.bindEvent();
+      // this.bindEvent();
+
     }
   },
   methods: {

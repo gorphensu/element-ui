@@ -2480,87 +2480,87 @@
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编17"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编16"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编15"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编14"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编13"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编12"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编11"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编10"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编9"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编8"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编7"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编6"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编5"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编4"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编3"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编2"
       width="120">
     </el-table-column>
     <el-table-column
       prop="zip"
-      label="邮编"
+      label="邮编1"
       width="120">
     </el-table-column>
   </el-table>

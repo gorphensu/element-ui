@@ -350,6 +350,36 @@ TableStore.prototype.initLazyColumns = function () {
   }
 }
 
+TableStore.prototype.initScrollShowColumns = function (startIndex, endIndex) {
+  const _columns = this.states._columns || [];
+  // TODO 懒加载优化
+  if (this.table.optimizeX) {
+    //  && array.length > optimizeConfig.defaultVisibleColumnSize
+    if (_columns.length > optimizeConfig.defaultVisibleColumnSize) {
+      _columns.forEach((col, index) => {
+        if (index >= startIndex && index <= endIndex) {
+          Vue.set(col, 'scrollShow', true);
+        } else {
+          Vue.set(col, 'scrollShow', false);
+        }
+      })
+    }
+  }
+}
+
+TableStore.prototype.updateScrollShowColumns = function (startIndex, endIndex) {
+  const _columns = this.states._columns || [];
+  if (this.table.optimizeX) {
+    _columns.forEach((col, index) => {
+      if (index >= startIndex && index <= endIndex) {
+        Vue.set(col, 'scrollShow', true);
+      } else {
+        Vue.set(col, 'scrollShow', false);
+      }
+    });
+  }
+}
+
 TableStore.prototype.isSelected = function(row) {
   return (this.states.selection || []).indexOf(row) > -1;
 };

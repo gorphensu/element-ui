@@ -32,20 +32,15 @@ export default {
     columnWidth: Number
   },
   render2(h) {
-    // let tmpFixedColumns = !this.fixed
+    // let tmpFixedColumns = this.columns;
+    // if (this.rowHeight) {
+    //   tmpFixedColumns = !this.fixed
     //   ? this.columns
     //   : this.fixed === 'right'
     //     ? this.rightFixedColumns
     //     : this.fixedColumns;
-    let tmpFixedColumns = this.columns;
-    if (this.rowHeight) {
-      tmpFixedColumns = !this.fixed
-      ? this.columns
-      : this.fixed === 'right'
-        ? this.rightFixedColumns
-        : this.fixedColumns;
-    }
-    const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
+    // }
+    const columnsHidden = this.tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
     if (this.table.optimizeY && this.rowHeight) {
       if (!this.columnWidth) {
         if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
@@ -64,7 +59,7 @@ export default {
         border="0">
         <colgroup>
           {
-            this._l(tmpFixedColumns, column =>
+            this._l(this.tmpFixedColumns, column =>
               <col
                 name={ column.id }
                 width={ column.width || column.realWidth }
@@ -86,7 +81,7 @@ export default {
                     on-mouseleave={ _ => this.handleMouseLeave() }
                     class={ [this.getRowClass(row, $index)] }>
                     {
-                      this._l(tmpFixedColumns, (column, cellIndex) => {
+                      this._l(this.tmpFixedColumns, (column, cellIndex) => {
                         const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
                         if (!rowspan || !colspan) {
                           return null;
@@ -111,7 +106,7 @@ export default {
                   </tr>,
                 this.store.states.expandRows.indexOf(row) > -1
                 ? (<tr>
-                    <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
+                    <td style={this.rowHeightStyle} colspan={ this.tmpFixedColumns.length } class="el-table__expanded-cell">
                       { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
                     </td>
                   </tr>)
@@ -131,20 +126,15 @@ export default {
     if (!this.rowHeight || !this.table.optimizeY) {
       return this.$options.render2.call(this, h);
     }
-    // let tmpFixedColumns = !this.fixed
+    // let tmpFixedColumns = this.columns;
+    // if (this.rowHeight) {
+    //   tmpFixedColumns = !this.fixed
     //   ? this.columns
     //   : this.fixed === 'right'
     //     ? this.rightFixedColumns
     //     : this.fixedColumns;
-    let tmpFixedColumns = this.columns;
-    if (this.rowHeight) {
-      tmpFixedColumns = !this.fixed
-      ? this.columns
-      : this.fixed === 'right'
-        ? this.rightFixedColumns
-        : this.fixedColumns;
-    }
-    const columnsHidden = tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
+    // }
+    const columnsHidden = this.tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
     if (this.table.optimizeY && this.rowHeight) {
       if (!this.columnWidth) {
         if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
@@ -158,8 +148,8 @@ export default {
     return (
       <div
         class={['el-table__virtual-wrapper', {'el-table--fixed__virtual-wrapper': this.fixed}]}
-        style={{height: this.table.virtualBodyHeight + 'px'}} >
-        <div style={[{transform: `translateY(${this.innerTop}px)`}]}>
+        style={{height: this.table.virtualBodyHeight + 'px', width: this.table.virtualBodyWidth + 'px'}} >
+        <div style={[{transform: `translate(${this.fixed ? 0 : 0}px, ${this.innerTop}px)`}]}>
         <table
           class="el-table__body"
           cellspacing="0"
@@ -167,7 +157,7 @@ export default {
           border="0">
           <colgroup>
             {
-              this._l(tmpFixedColumns, column =>
+              this._l(this.tmpFixedColumns, column =>
                 <col
                   name={ column.id }
                   width={ column.width || column.realWidth }
@@ -189,7 +179,7 @@ export default {
                     on-mouseleave={ _ => this.handleMouseLeave() }
                     class={ [this.getRowClass(row, $index)] }>
                     {
-                      this._l(tmpFixedColumns, (column, cellIndex) => {
+                      this._l(this.tmpFixedColumns, (column, cellIndex) => {
                         const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
                         if (!rowspan || !colspan) {
                           return null;
@@ -212,7 +202,7 @@ export default {
                   </tr>,
                   this.store.states.expandRows.indexOf(row) > -1
                   ? (<tr>
-                      <td style={this.rowHeightStyle} colspan={ tmpFixedColumns.length } class="el-table__expanded-cell">
+                      <td style={this.rowHeightStyle} colspan={ this.tmpFixedColumns.length } class="el-table__expanded-cell">
                         { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
                       </td>
                     </tr>)
@@ -266,6 +256,28 @@ export default {
   },
 
   computed: {
+    // let tmpFixedColumns = this.columns;
+    // if (this.rowHeight) {
+    //   tmpFixedColumns = !this.fixed
+    //   ? this.columns
+    //   : this.fixed === 'right'
+    //     ? this.rightFixedColumns
+    //     : this.fixedColumns;
+    // }
+    tmpFixedColumns() {
+      let tmpFixedColumns = this.columns;
+      if (this.rowHeight) {
+        tmpFixedColumns = !this.fixed
+        ? this.columns
+        : this.fixed === 'right'
+          ? this.rightFixedColumns
+          : this.fixedColumns;
+      }
+      // if (this.table.optimizeX && !this.fixed) {
+      //   tmpFixedColumns = tmpFixedColumns.slice(this.startColumnIndex, this.endColumnIndex);
+      // }
+      return tmpFixedColumns;
+    },
     visibleData() {
       if (this.table.optimizeY && this.rowHeight) {
         return this.data.slice(this.startIndex, this.endIndex);
@@ -337,7 +349,13 @@ export default {
       visibleCount: optimizeConfig.defaultVisibleRowSize,
       scrollTop: 0,
       excessRows: 3,
-      innerTop: 0
+      innerTop: 0,
+
+      scrollLeft: 0,
+      startColumnIndex: 0,
+      endColumnIndex: 0,
+      visibleColumnCount: optimizeConfig.defaultVisibleColumnSize,
+      innerLeft: 0
     };
   },
 
@@ -347,12 +365,18 @@ export default {
     this.throttleScrollEvent = this.scrollEvent;
     this.visibleCount = this.table.visibleRowCount;
     this.endIndex = this.startIndex + this.visibleCount;
+
+    this.endColumnIndex = this.startColumnIndex + this.visibleColumnCount;
   },
 
   mounted() {
     // 行懒加载优化
     if (this.table.optimizeY && this.rowHeight) {
       this.bindEvent();
+    }
+    if (this.table.optimizeX) {
+      this.scrollXEvent(0);
+      this.store.initScrollShowColumns(this.startColumnIndex, this.endColumnIndex);
     }
   },
 
@@ -520,46 +544,71 @@ export default {
     unbindEvent() {
       this.table.bodyWrapper && this.table.bodyWrapper.removeEventListener('scroll', this.throttleScrollEvent);
     },
-    scrollEvent2(e) {
-      if (this.data.length <= this.visibleCount && (!this.columnWidth || true)) {
-        return
-      }
-      let bodyWrapper = this.table && this.table.bodyWrapper;
-      if (bodyWrapper) {
-        let scrollTop = bodyWrapper.scrollTop;
-        this.scrollTop = scrollTop;
-        let clientHeight = bodyWrapper.offsetHeight;
-        let rowHeight = this.rowHeight;
-        let start = Math.floor(scrollTop / rowHeight);
-        let end = start + this.visibleCount;
-        if (end > this.data.length) {
-          end = this.data.length;
-          start = end - this.visibleCount;
-        }
-        this.startIndex = start;
-        this.endIndex = end;
-        console.log(this.startIndex, this.endIndex, this.innerTop);
-      }
-    },
     scrollEvent(e) {
       if (this.data.length <= this.visibleCount) {
         return
       }
       let bodyWrapper = this.table && this.table.bodyWrapper;
       if (bodyWrapper) {
-        let scrollTop = bodyWrapper.scrollTop;
+        let { scrollTop, scrollLeft } = bodyWrapper;
         const bodyScrollHeight = this.visibleCount * this.rowHeight;
-        // this.scrollTop = scrollTop;
         if (this.table.virtualBodyHeight < scrollTop + bodyScrollHeight) {
           scrollTop = this.table.virtualBodyHeight - bodyScrollHeight;
         }
         this.scrollTop = scrollTop;
         let startIndex = parseInt(scrollTop / this.rowHeight);
-        const { start, end } = this.getVisibleRange(startIndex)
-        this.startIndex = start
-        this.endIndex = end
-        this.innerTop = this.startIndex * this.rowHeight
-        console.log(this.startIndex, this.endIndex, this.innerTop);
+        const { start, end } = this.getVisibleRange(startIndex);
+        this.startIndex = start;
+        this.endIndex = end;
+        this.innerTop = this.startIndex * this.rowHeight;
+        this.scrollXEvent(scrollLeft);
+      }
+    },
+    scrollXEvent(scrollLeft) {
+      let bodyWrapper = this.table && this.table.bodyWrapper;
+      const columns = this.store.states._columns;
+      this.scrollLeft = scrollLeft;
+      console.log('scrollLeft');
+      let startColumnIndex = this.findNearestColumnIndex(scrollLeft);
+      let endColumnIndex = this.findNearestColumnIndex(scrollLeft + bodyWrapper.offsetWidth);
+      this.startColumnIndex = startColumnIndex;
+      this.endColumnIndex = Math.min(endColumnIndex + 1, columns.length);
+      // this.innerLeft = this.getColumnSizeAndOffset(this.startColumnIndex).offset;
+      // this.innerLeft = this.scrollLeft;
+      // console.log(this.startColumnIndex, this.endColumnIndex, this.scrollLeft, this.innerLeft);
+      this.store.updateScrollShowColumns(this.startColumnIndex, this.endColumnIndex);
+    },
+    getColumnWidth(column) {
+      return column.realWidth || column.width || column.minWidth || 0;
+    },
+    findNearestColumnIndex(scrollLeft) {
+      const columns = this.store.states._columns;
+      let total = 0;
+      for (let i = 0, j = columns.length; i < j; i++) {
+        const width = this.getColumnWidth(columns[i]);
+        total += width;
+        if (total >= scrollLeft || i === j - 1) {
+          return i
+        }
+      }
+      return 0;
+    },
+    getColumnSizeAndOffset(index) {
+      let total = 0;
+      const columns = this.store.states._columns;
+      for (let i = 0, j = Math.min(index, columns.length - 1); i <= j; i++) {
+        const width = this.getColumnWidth(columns[i]);
+        if (i === j) {
+          return {
+            offset: total,
+            width
+          }
+        }
+        total += width
+      }
+      return {
+        offset: 0,
+        width: 0
       }
     },
     getVisibleRange (expectStart) {

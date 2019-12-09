@@ -426,6 +426,7 @@
     }
 
     @e body {
+      border-collapse: collapse;
       tr.hover-row {
         &, &.el-table__row--striped {
           &, &.current-row {
