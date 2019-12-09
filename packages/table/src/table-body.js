@@ -371,7 +371,7 @@ export default {
 
   mounted() {
     // 行懒加载优化
-    if (this.table.optimizeY && this.rowHeight) {
+    if ((this.table.optimizeY && this.rowHeight) || this.table.optimizeX) {
       this.bindEvent();
     }
     if (this.table.optimizeX) {
@@ -382,7 +382,7 @@ export default {
 
   beforeDestroy() {
     // 行懒加载优化
-    if (this.table.optimizeY && this.rowHeight) {
+    if ((this.table.optimizeY && this.rowHeight) || this.table.optimizeX) {
       this.unbindEvent();
     }
   },
@@ -545,22 +545,28 @@ export default {
       this.table.bodyWrapper && this.table.bodyWrapper.removeEventListener('scroll', this.throttleScrollEvent);
     },
     scrollEvent(e) {
-      if (this.data.length <= this.visibleCount) {
-        return
-      }
+      // if ((this.table.optimizeY && this.rowHeight) || this.table.optimizeX)
+
       let bodyWrapper = this.table && this.table.bodyWrapper;
-      if (bodyWrapper) {
-        let { scrollTop, scrollLeft } = bodyWrapper;
-        const bodyScrollHeight = this.visibleCount * this.rowHeight;
-        if (this.table.virtualBodyHeight < scrollTop + bodyScrollHeight) {
-          scrollTop = this.table.virtualBodyHeight - bodyScrollHeight;
+      let { scrollTop, scrollLeft } = bodyWrapper;
+      if (this.table.optimizeY && this.rowHeight) {
+        if (this.data.length <= this.visibleCount) {
+          return
         }
-        this.scrollTop = scrollTop;
-        let startIndex = parseInt(scrollTop / this.rowHeight);
-        const { start, end } = this.getVisibleRange(startIndex);
-        this.startIndex = start;
-        this.endIndex = end;
-        this.innerTop = this.startIndex * this.rowHeight;
+        if (bodyWrapper) {
+          const bodyScrollHeight = this.visibleCount * this.rowHeight;
+          if (this.table.virtualBodyHeight < scrollTop + bodyScrollHeight) {
+            scrollTop = this.table.virtualBodyHeight - bodyScrollHeight;
+          }
+          this.scrollTop = scrollTop;
+          let startIndex = parseInt(scrollTop / this.rowHeight);
+          const { start, end } = this.getVisibleRange(startIndex);
+          this.startIndex = start;
+          this.endIndex = end;
+          this.innerTop = this.startIndex * this.rowHeight;
+        }
+      }
+      if (this.table.optimizeX) {
         this.scrollXEvent(scrollLeft);
       }
     },
