@@ -568,14 +568,12 @@ export default {
       let bodyWrapper = this.table && this.table.bodyWrapper;
       const columns = this.store.states._columns;
       this.scrollLeft = scrollLeft;
-      console.log('scrollLeft');
       let startColumnIndex = this.findNearestColumnIndex(scrollLeft);
       let endColumnIndex = this.findNearestColumnIndex(scrollLeft + bodyWrapper.offsetWidth);
       this.startColumnIndex = startColumnIndex;
       this.endColumnIndex = Math.min(endColumnIndex + 1, columns.length);
       // this.innerLeft = this.getColumnSizeAndOffset(this.startColumnIndex).offset;
       // this.innerLeft = this.scrollLeft;
-      // console.log(this.startColumnIndex, this.endColumnIndex, this.scrollLeft, this.innerLeft);
       this.store.updateScrollShowColumns(this.startColumnIndex, this.endColumnIndex);
     },
     getColumnWidth(column) {
