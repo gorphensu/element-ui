@@ -2,9 +2,6 @@ import ElCheckbox from 'element-ui/packages/checkbox';
 import ElTag from 'element-ui/packages/tag';
 import objectAssign from 'element-ui/src/utils/merge';
 import { getValueByPath } from 'element-ui/src/utils/util';
-import { optimizeConfig } from './config';
-import throttle from 'throttle-debounce/throttle';
-import debounce from 'throttle-debounce/debounce';
 
 let columnIdSeed = 1;
 
@@ -276,7 +273,6 @@ export default {
       filterOpened: false,
       filteredValue: this.filteredValue || [],
       filterPlacement: this.filterPlacement || '',
-      lazyload: false,
       scrollShow: false
     });
 
@@ -303,7 +299,6 @@ export default {
     column.renderLazyloadCell = function (h) {
       return null
     }
-    this.throttleScrollEvent = debounce(50, () => this.scrollEvent());
     column.renderCell = function(h, data) {
       // 未来版本移除
       if (_self.$vnode.data.inlineTemplate) {
@@ -347,21 +342,12 @@ export default {
     if (!this.$parent) return;
     const parent = this.$parent;
     this.owner.store.commit('removeColumn', this.columnConfig, this.isSubColumn ? parent.columnConfig : null);
-    // 列懒加载优化
-    if (this.owner.optimizeX) {
-      // this.unbindEvent();
-    }
     // 需要同步行高度
     // 理论上是要非固定行才去发出这个事件，去通知固定行的高度改变
     // !this.parent.fixed && this.parent.table.$emit(`table-row-resize-change-${this.index}`, this.$el);
   },
 
   watch: {
-    lazyload(newVal) {
-      if (this.columnConfig) {
-        this.columnConfig.lazyload = newVal;
-      }
-    },
     label(newVal) {
       if (this.columnConfig) {
         this.columnConfig.label = newVal;
@@ -458,37 +444,7 @@ export default {
     }
 
     owner.store.commit('insertColumn', this.columnConfig, columnIndex, this.isSubColumn ? parent.columnConfig : null);
-    // 列懒加载优化
-    if (this.owner.optimizeX) {
-      // this.bindEvent();
-
-    }
   },
   methods: {
-    bindEvent() {
-      this.owner.bodyWrapper && this.owner.bodyWrapper.addEventListener('scroll', this.throttleScrollEvent, {
-        passive: true
-      });
-    },
-    unbindEvent() {
-      this.owner.bodyWrapper && this.owner.bodyWrapper.removeEventListener('scroll', this.throttleScrollEvent);
-    },
-    scrollEvent() {
-      if (this.columnConfig.lazyload === true) {
-        let bodyWrapper = this.owner.bodyWrapper;
-        if (bodyWrapper) {
-          let scrollLeft = bodyWrapper.scrollLeft;
-          let innerWidth = bodyWrapper.offsetWidth;
-          let index = this.owner.store.states._columns.findIndex((col) => col.id === this.columnConfig.id);
-          let prevColumnWidths = 0
-          for (let i = 0; i < index; i++) {
-            prevColumnWidths += +(this.owner.store.states._columns[i].realWidth || this.owner.store.states._columns[i].width || this.owner.store.states._columns[i].minWidth);
-          }
-          if (scrollLeft + innerWidth - prevColumnWidths >= 0) {
-            this.columnConfig.lazyload = false;
-          }
-        }
-      }
-    }
   }
 };

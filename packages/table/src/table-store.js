@@ -71,8 +71,7 @@ const TableStore = function(table, initialState = {}) {
     hoverRow: null,
     filters: {},
     expandRows: [],
-    defaultExpandAll: false,
-    loadedRows: []
+    defaultExpandAll: false
   };
 
   for (let prop in initialState) {
@@ -195,7 +194,6 @@ TableStore.prototype.mutations = {
     } else {
       array.push(column);
     }
-    this.initLazyColumns();
 
     if (column.type === 'selection') {
       states.selectable = column.selectable;
@@ -216,7 +214,6 @@ TableStore.prototype.mutations = {
     if (array) {
       array.splice(array.indexOf(column), 1);
     }
-    this.initLazyColumns();
 
     if (this.table.$ready) {
       this.updateColumns();  // hack for dynamics remove column
@@ -294,16 +291,7 @@ TableStore.prototype.mutations = {
     }
     table.$emit('select-all', selection);
     states.isAllSelected = value;
-  }),
-
-  initLoadedRows: function(states) {
-    states.loadedRows = [];
-  },
-  addLoadedRow: function(states, row) {
-    if (states.loadedRows.indexOf(row) === -1) {
-      states.loadedRows.push(row);
-    }
-  }
+  })
 };
 
 const doFlattenColumns = (columns) => {
@@ -333,37 +321,17 @@ TableStore.prototype.updateColumns = function() {
   states.isComplex = states.fixedColumns.length > 0 || states.rightFixedColumns.length > 0;
 };
 
-TableStore.prototype.initLazyColumns = function () {
-  const _columns = this.states._columns || [];
-  // TODO 懒加载优化
-  if (this.table.optimizeX) {
-    //  && array.length > optimizeConfig.defaultVisibleColumnSize
-    if (_columns.length > optimizeConfig.defaultVisibleColumnSize) {
-      _columns.forEach((col, index) => {
-        if (index >= optimizeConfig.defaultVisibleColumnSize) {
-          Vue.set(col, 'lazyload', true)
-        } else {
-          Vue.set(col, 'lazyload', false)
-        }
-      })
-    }
-  }
-}
-
 TableStore.prototype.initScrollShowColumns = function (startIndex, endIndex) {
   const _columns = this.states._columns || [];
   // TODO 懒加载优化
   if (this.table.optimizeX) {
-    //  && array.length > optimizeConfig.defaultVisibleColumnSize
-    if (_columns.length > optimizeConfig.defaultVisibleColumnSize) {
-      _columns.forEach((col, index) => {
-        if (index >= startIndex && index <= endIndex) {
-          Vue.set(col, 'scrollShow', true);
-        } else {
-          Vue.set(col, 'scrollShow', false);
-        }
-      })
-    }
+    _columns.forEach((col, index) => {
+      if (index >= startIndex && index <= endIndex) {
+        Vue.set(col, 'scrollShow', true);
+      } else {
+        Vue.set(col, 'scrollShow', false);
+      }
+    })
   }
 }
 

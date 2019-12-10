@@ -497,7 +497,6 @@
         immediate: true,
         handler(val) {
           this.store.commit('setData', val);
-          this.store.commit('initLoadedRows');
           if (this.$ready) this.doLayout();
         }
       },

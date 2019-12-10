@@ -41,16 +41,6 @@ export default {
     //     : this.fixedColumns;
     // }
     const columnsHidden = this.tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
-    if (this.table.optimizeY && this.rowHeight) {
-      if (!this.columnWidth) {
-        if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
-          this.data.slice(0, optimizeConfig.defaultVisibleRowSize).forEach(row => {
-            this.store.commit('addLoadedRow', row);
-          });
-        }
-      } else {
-      }
-    }
     return (
       <table
         class="el-table__body"
@@ -135,16 +125,6 @@ export default {
     //     : this.fixedColumns;
     // }
     const columnsHidden = this.tmpFixedColumns.map((column, index) => this.isColumnHidden(index));
-    if (this.table.optimizeY && this.rowHeight) {
-      if (!this.columnWidth) {
-        if (this.data.length > optimizeConfig.defaultVisibleRowSize) {
-          this.data.slice(0, optimizeConfig.defaultVisibleRowSize).forEach(row => {
-            this.store.commit('addLoadedRow', row);
-          });
-        }
-      } else {
-      }
-    }
     return (
       <div
         class={['el-table__virtual-wrapper', {'el-table--fixed__virtual-wrapper': this.fixed}]}
@@ -252,6 +232,12 @@ export default {
       if (newRow) {
         addClass(newRow, 'current-row');
       }
+    },
+    'tmpFixedColumns'(newVal, oldVal) {
+      if (this.table.optimizeX) {
+        this.scrollXEvent(0);
+        this.store.initScrollShowColumns(this.startColumnIndex, this.endColumnIndex);
+      }
     }
   },
 
@@ -283,9 +269,6 @@ export default {
         return this.data.slice(this.startIndex, this.endIndex);
       }
       return this.data
-    },
-    loadedRows() {
-      return this.store.states.loadedRows || []
     },
     rowHeightStyle() {
       if (!this.rowHeight) {
@@ -334,10 +317,6 @@ export default {
     },
     rightFixedColumns() {
       return this.store.states.rightFixedColumns;
-    },
-
-    loadedRows() {
-      return this.store.states.loadedRows;
     }
   },
 
