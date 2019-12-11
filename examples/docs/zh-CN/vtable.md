@@ -2073,6 +2073,7 @@
     <el-table-column
       prop="name"
       label="姓名"
+      :show-overflow-tooltip="true"
       width="120">
     </el-table-column>
     <el-table-column
@@ -2289,6 +2290,7 @@
     <el-table-column
       prop="name"
       label="姓名"
+      :show-overflow-tooltip="true"
       width="120">
       <template scope="scope">
         <test-my-column-item :text="scope.row.name" key="name" ref="name"></test-my-column-item>

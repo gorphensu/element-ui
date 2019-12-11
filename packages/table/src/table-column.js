@@ -333,7 +333,7 @@ export default {
         scrollShow = true
       }
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow
-        ? <div class="cell el-tooltip" style={'width:' + (data.column.width || data.column.realWidth) + 'px'}>{ renderCell(h, data) }</div>
+        ? <div class="cell el-tooltip" class={ ['cell', 'el-tooltip', owner.rowLineNumber ? 'has-row-linenumber' : ''] } style={[..._self.rowHeightStyle, _self.rowLineNumberStyle, 'width:' + (data.column.width || data.column.realWidth) + 'px']}>{ scrollShow ? renderCell(h, data) : column.renderLazyloadCell(h, data) }</div>
         : <div class={ ['cell', owner.rowHeight ? 'has-row-height': '', owner.rowLineNumber ? 'has-row-linenumber' : ''] } style={[..._self.rowHeightStyle, _self.rowLineNumberStyle]}>{ scrollShow ? renderCell(h, data) : column.renderLazyloadCell(h, data) }</div>;
     };
   },

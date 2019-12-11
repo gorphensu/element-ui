@@ -42,6 +42,10 @@
       white-space: nowrap;
       min-width: 50px;
     }
+    .el-tooltip.cell.has-row-linenumber {
+      white-space: initial;
+      min-width: initial;
+    }
 
     @e empty-block {
       position: relative;
