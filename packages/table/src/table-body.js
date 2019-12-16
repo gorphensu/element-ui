@@ -235,7 +235,7 @@ export default {
     },
     'tmpFixedColumns'(newVal, oldVal) {
       if (this.table.optimizeX) {
-        this.scrollXEvent(0);
+        this.scrollXEvent();
         this.store.initScrollShowColumns(this.startColumnIndex, this.endColumnIndex);
       }
     }
@@ -551,6 +551,9 @@ export default {
     },
     scrollXEvent(scrollLeft) {
       let bodyWrapper = this.table && this.table.bodyWrapper;
+      if (scrollLeft === undefined) {
+        scrollLeft = bodyWrapper.scrollLeft;
+      }
       const columns = this.store.states._columns;
       this.scrollLeft = scrollLeft;
       let startColumnIndex = this.findNearestColumnIndex(scrollLeft);
