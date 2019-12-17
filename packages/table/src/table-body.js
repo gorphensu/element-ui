@@ -166,7 +166,7 @@ export default {
                         }
                         return (<td
                           style={this.rowHeightStyle}
-                          class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden' : '' ] }
+                          class={ [column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '' ] }
                           on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
                           on-mouseleave={ this.handleCellMouseLeave }>
                           {
@@ -455,7 +455,9 @@ export default {
 
       if ((hasClass(cellChild, 'el-tooltip') && cellChild.scrollWidth >= cellChild.offsetWidth)) {
         const tooltip = this.$refs.tooltip;
-
+        if (!this.tooltipContent) {
+          return
+        }
         this.tooltipContent = cell.innerText;
         tooltip.referenceElm = cell;
         tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
