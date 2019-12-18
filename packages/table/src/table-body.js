@@ -455,7 +455,7 @@ export default {
 
       if ((hasClass(cellChild, 'el-tooltip') && cellChild.scrollWidth >= cellChild.offsetWidth)) {
         const tooltip = this.$refs.tooltip;
-        if (!this.tooltipContent) {
+        if (!cell.innerText) {
           return
         }
         this.tooltipContent = cell.innerText;
