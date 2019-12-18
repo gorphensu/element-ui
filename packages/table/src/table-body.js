@@ -529,12 +529,15 @@ export default {
       // if ((this.table.optimizeY && this.rowHeight) || this.table.optimizeX)
 
       let bodyWrapper = this.table && this.table.bodyWrapper;
-      let { scrollTop, scrollLeft } = bodyWrapper;
+      if (this.table.optimizeX) {
+        this.scrollXEvent(bodyWrapper && bodyWrapper.scrollLeft);
+      }
       if (this.table.optimizeY && this.rowHeight) {
         if (this.data.length <= this.visibleCount) {
           return
         }
         if (bodyWrapper) {
+          let { scrollTop, scrollLeft } = bodyWrapper;
           const bodyScrollHeight = this.visibleCount * this.rowHeight;
           if (this.table.virtualBodyHeight < scrollTop + bodyScrollHeight) {
             scrollTop = this.table.virtualBodyHeight - bodyScrollHeight;
@@ -546,9 +549,6 @@ export default {
           this.endIndex = end;
           this.innerTop = this.startIndex * this.rowHeight;
         }
-      }
-      if (this.table.optimizeX) {
-        this.scrollXEvent(scrollLeft);
       }
     },
     scrollXEvent(scrollLeft) {
