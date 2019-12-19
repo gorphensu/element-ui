@@ -2277,6 +2277,7 @@
     :optimize="true"
     row-key="id"
     height="450">
+    <el-table-column type="index" width="60" fixed></el-table-column>
     <el-table-column type="selection" width="60" fixed></el-table-column>
     <el-table-column
       fixed

@@ -150,17 +150,17 @@ export default {
               this._l(this.visibleData, (row, $index) =>
                 [
                   <tr
-                    style={ [this.rowStyle ? this.getRowStyle(row, $index) : null, this.trRowHeightStyle] }
-                    key={ this.table.rowKey ? this.getKeyOfRow(row, $index) : $index }
+                    style={ [this.rowStyle ? this.getRowStyle(row, this.getIndex($index)) : null, this.trRowHeightStyle] }
+                    key={ this.table.rowKey ? this.getKeyOfRow(row, this.getIndex($index)) : $index }
                     on-dblclick={ ($event) => this.handleDoubleClick($event, row) }
                     on-click={ ($event) => this.handleClick($event, row) }
                     on-contextmenu={ ($event) => this.handleContextMenu($event, row) }
-                    on-mouseenter={ _ => this.handleMouseEnter($index) }
+                    on-mouseenter={ _ => this.handleMouseEnter(this.getIndex($index)) }
                     on-mouseleave={ _ => this.handleMouseLeave() }
-                    class={ [this.getRowClass(row, $index)] }>
+                    class={ [this.getRowClass(row, this.getIndex($index))] }>
                     {
                       this._l(this.tmpFixedColumns, (column, cellIndex) => {
-                        const { rowspan, colspan } = this.getSpan(row, column, $index, cellIndex);
+                        const { rowspan, colspan } = this.getSpan(row, column, this.getIndex($index), cellIndex);
                         if (!rowspan || !colspan) {
                           return null;
                         }
@@ -170,7 +170,7 @@ export default {
                           on-mouseenter={ ($event) => this.handleCellMouseEnter($event, row) }
                           on-mouseleave={ this.handleCellMouseLeave }>
                           {
-                            column.renderCell.call(this._renderProxy, h, { row, column, $index, store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
+                            column.renderCell.call(this._renderProxy, h, { row, column, $index: this.getIndex($index), store: this.store, _self: this.context || this.table.$vnode.context }, columnsHidden[cellIndex])
                           }
                         </td>)
                       }
@@ -183,7 +183,7 @@ export default {
                   this.store.states.expandRows.indexOf(row) > -1
                   ? (<tr>
                       <td style={this.rowHeightStyle} colspan={ this.tmpFixedColumns.length } class="el-table__expanded-cell">
-                        { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index, store: this.store }) : ''}
+                        { this.table.renderExpanded ? this.table.renderExpanded(h, { row, $index: this.getIndex($index), store: this.store }) : ''}
                       </td>
                     </tr>)
                   : ''
@@ -367,6 +367,9 @@ export default {
   },
 
   methods: {
+    getIndex(index) {
+      return this.startIndex + index;
+    },
     getVisibleCount() {
       let bodyWrapper = this.table && this.table.bodyWrapper;
       if (bodyWrapper) {
