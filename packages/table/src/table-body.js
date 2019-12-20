@@ -458,14 +458,14 @@ export default {
 
       if ((hasClass(cellChild, 'el-tooltip') && cellChild.scrollWidth >= cellChild.offsetWidth)) {
         const tooltip = this.$refs.tooltip;
-        if (!cell.innerText) {
-          return
-        }
         this.tooltipContent = cell.innerText;
         tooltip.referenceElm = cell;
         tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
         tooltip.doDestroy();
         tooltip.setExpectedState(true);
+        if (!cell.innerText) {
+          return
+        }
         this.activateTooltip(tooltip);
       }
     },
