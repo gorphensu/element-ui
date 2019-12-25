@@ -536,9 +536,9 @@ export default {
         this.scrollXEvent(bodyWrapper && bodyWrapper.scrollLeft);
       }
       if (this.table.optimizeY && this.rowHeight) {
-        if (this.data.length <= this.visibleCount) {
-          return
-        }
+        // if (this.data.length <= this.visibleCount) {
+        //   return
+        // }
         if (bodyWrapper) {
           let { scrollTop, scrollLeft } = bodyWrapper;
           const bodyScrollHeight = this.visibleCount * this.rowHeight;
@@ -547,6 +547,9 @@ export default {
           }
           this.scrollTop = scrollTop;
           let startIndex = parseInt(scrollTop / this.rowHeight);
+          if (startIndex < 0) {
+            startIndex = 0;
+          }
           const { start, end } = this.getVisibleRange(startIndex);
           this.startIndex = start;
           this.endIndex = end;
