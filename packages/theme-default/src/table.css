@@ -212,7 +212,7 @@
     @e fixed-right {
       top: 0;
       left: auto;
-      right: 0;
+      right: 1px;
 
       box-shadow: -1px 0 8px #d3d4d6;
 
