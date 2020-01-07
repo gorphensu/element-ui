@@ -384,6 +384,11 @@
         visibility: hidden;
       }
     }
+    & th.is-hidden {
+      > * {
+        visibility: collapse;
+      }
+    }
 
     & .cell {
       box-sizing: border-box;
