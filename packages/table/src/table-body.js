@@ -203,14 +203,26 @@ export default {
 
   watch: {
     'store.states.hoverRow'(newVal, oldVal) {
+      console.log(newVal, oldVal);
       if (!this.store.states.isComplex) return;
       const el = this.$el;
       if (!el) return;
       const rows = el.querySelectorAll('tbody > tr.el-table__row');
-      const oldRow = rows[oldVal];
-      const newRow = rows[newVal];
+      let oldRow = rows[oldVal];
+      let newRow = rows[newVal];
+      // 虚拟滚动需要找回对应的虚拟row
+      if (this.table.optimizeY) {
+        newRow = rows[newVal - this.startIndex];
+        if (oldVal) {
+          oldRow = rows[oldVal - this.startIndex];
+        }
+      }
       if (oldRow) {
         removeClass(oldRow, 'hover-row');
+      } else {
+        rows.forEach(row => {
+          removeClass(row, 'hover-row')
+        })
       }
       if (newRow) {
         addClass(newRow, 'hover-row');
@@ -342,6 +354,7 @@ export default {
     this.activateTooltip = debounce(50, tooltip => tooltip.handleShowPopper());
     // this.throttleScrollEvent = debounce(50, (e) => this.scrollEvent(e));
     this.throttleScrollEvent = this.scrollEvent;
+    
     this.visibleCount = this.table.visibleRowCount;
     this.endIndex = this.startIndex + this.visibleCount;
 
@@ -534,6 +547,11 @@ export default {
       let bodyWrapper = this.table && this.table.bodyWrapper;
       if (this.table.optimizeX) {
         this.scrollXEvent(bodyWrapper && bodyWrapper.scrollLeft);
+      }
+      if (this.table.optimizeY) {
+        const tooltip = this.$refs.tooltip;
+        tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
+        tooltip.doDestroy();
       }
       if (this.table.optimizeY && this.rowHeight) {
         // if (this.data.length <= this.visibleCount) {
