@@ -206,7 +206,7 @@ export default {
       if (!newVal) {
         setTimeout(() => {
           const tooltip = this.$refs.tooltip;
-          if (tooltip && (!this.tooltipContent || this.tooltipContent === ' ' || this.tooltipContent === '\r' || this.tooltipContent === '\n')) {
+          if (tooltip && (!this.tooltipContent || this.tooltipContent === ' ' || this.tooltipContent === ' \n' || this.tooltipContent === '\n ' || this.tooltipContent === '\n')) {
             tooltip.setExpectedState(false);
             tooltip.handleClosePopper();
           }
@@ -488,7 +488,7 @@ export default {
         tooltip.doDestroy();
         tooltip.setExpectedState(true);
         console.error('this.tooltipContent[' + this.tooltipContent + ']')
-        if (!this.tooltipContent || this.tooltipContent === ' ' || this.tooltipContent === '\n' || this.tooltipContent === '\r') {
+        if (!this.tooltipContent || this.tooltipContent === ' ' || this.tooltipContent === '\n' || this.tooltipContent === ' \n' || this.tooltipContent === '\n ') {
           return
         }
         this.activateTooltip(tooltip);
