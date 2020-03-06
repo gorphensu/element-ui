@@ -80,7 +80,8 @@ export default {
                         rowspan={rowspan}
                         colspan={colspan}
                         style={this.rowHeightStyle}
-                        class={[column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '']}
+                        // class={[column.id, column.align, column.className || '']}
+                        class={ this.getCellClass($index, cellIndex, row, column) }
                         on-mouseenter={($event) => this.handleCellMouseEnter($event, row)}
                         on-mouseleave={this.handleCellMouseLeave}>
                         {
@@ -166,7 +167,8 @@ export default {
                           }
                           return (<td
                             style={this.rowHeightStyle}
-                            class={[column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '']}
+                            // class={[column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '']}
+                            class={ this.getCellClass($index, cellIndex, row, column) }
                             on-mouseenter={($event) => this.handleCellMouseEnter($event, row)}
                             on-mouseleave={this.handleCellMouseLeave}>
                             {
@@ -214,7 +216,6 @@ export default {
       }
     },
     'store.states.hoverRow'(newVal, oldVal) {
-      console.log(newVal, oldVal);
       if (!this.store.states.isComplex) return;
       const el = this.$el;
       if (!el) return;
@@ -465,6 +466,15 @@ export default {
       }
 
       return classes.join(' ');
+    },
+
+    getCellClass(rowIndex, columnIndex, row, column) {
+      // class={[column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '']}
+      const classes = [column.id, column.align, column.className];
+      // if (this.isColumnHidden(columnIndex)) {
+      //   classes.push('is-hidden-deprecated')
+      // }
+      return classes.join(' ')
     },
 
     handleCellMouseEnter(event, row) {
