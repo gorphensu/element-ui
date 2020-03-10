@@ -471,9 +471,9 @@ export default {
     getCellClass(rowIndex, columnIndex, row, column) {
       // class={[column.id, column.align, column.className || '', columnsHidden[cellIndex] ? 'is-hidden-deprecated' : '']}
       const classes = [column.id, column.align, column.className];
-      // if (this.isColumnHidden(columnIndex)) {
-      //   classes.push('is-hidden-deprecated')
-      // }
+      if (this.isColumnHidden(columnIndex)) {
+        classes.push('is-hidden-deprecated')
+      }
       return classes.join(' ')
     },
 
