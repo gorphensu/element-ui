@@ -497,7 +497,6 @@ export default {
         tooltip.$refs.popper && (tooltip.$refs.popper.style.display = 'none');
         tooltip.doDestroy();
         tooltip.setExpectedState(true);
-        console.error('this.tooltipContent[' + this.tooltipContent + ']')
         if (!this.tooltipContent || this.tooltipContent === ' ' || this.tooltipContent === '\n' || this.tooltipContent === ' \n' || this.tooltipContent === '\n ') {
           return
         }
