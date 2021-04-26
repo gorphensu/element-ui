@@ -366,7 +366,8 @@ export default {
 
   created() {
     this.activateTooltip = debounce(50, tooltip => tooltip.handleShowPopper());
-    this.throttleScrollEvent = debounce(50, (e) => this.scrollEvent(e));
+    // this.throttleScrollEvent = debounce(50, (e) => this.scrollEvent(e));
+    this.throttleScrollEvent = throttle(25, (e) =>  this.scrollEvent(e));
     // this.throttleScrollEvent = this.scrollEvent;
 
     this.visibleCount = this.table.visibleRowCount;
